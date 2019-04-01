@@ -27,11 +27,17 @@ public class Main {
         int inicial[][] = {
             {8, 5, 2},
             {7, 6, 4},
-            {3, 1, 0}
+            {0, 1, 3}
         };
 
         Jogo j = new Jogo(objetivo, inicial);
-        j.jogar();
+        while (!j.isFinal()){  
+            j.jogar();
+        }
+        //j.imprimeMaiorFronteira();
+        //j.imprimeNodosFechados();
+        
+        
     }
 
 }
