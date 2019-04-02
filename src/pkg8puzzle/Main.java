@@ -25,13 +25,20 @@ public class Main {
         };
 
         int inicial[][] = {
-            {8, 5, 2},
-            {7, 6, 4},
-            {3, 1, 0}
+              {1, 2, 3},
+            {4, 0, 6},
+            {7, 8, 5}
         };
 
         Jogo j = new Jogo(objetivo, inicial);
-        j.jogar();
+        while (!j.isFinal()){  
+            j.jogar();
+        }
+        System.out.println("Resolvido em " + j.getPassos() + " passos");
+        //j.imprimeMaiorFronteira();
+        //j.imprimeNodosFechados();
+        
+        
     }
 
 }

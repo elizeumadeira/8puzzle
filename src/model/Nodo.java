@@ -15,10 +15,13 @@ public class Nodo {
 
     private int[][] matriz;
     private int heuristica;
+    private int custo = 1;
+    private int n;
     private Nodo proximo_lista;
 
     public Nodo(int[][] matriz) {
-        this.matriz = matriz;
+        this.matriz = matriz; 
+        n = matriz[0].length;
     }
 
     public int[][] getMatriz() {
@@ -37,6 +40,18 @@ public class Nodo {
         this.heuristica = heuristica;
     }
 
+    public int getCusto() {
+        return custo;
+    }
+
+    public void setCusto(int custo) {
+        this.custo = custo;
+    }
+
+    public int getN() {
+        return n;
+    }
+    
     @Override
     public String toString() {
         String m = "";
@@ -48,9 +63,9 @@ public class Nodo {
 //            m += '\n';
 //        }
 
-        for(int i = 0; i < 9; i++){
-            int linha = i/3;
-            int coluna = (int) i%3;
+        for(int i = 0; i < (n*n); i++){
+            int linha = i/n;
+            int coluna = (int) i%n;
             
             if(coluna == 0){
                 m += '\n';
@@ -87,13 +102,24 @@ public class Nodo {
             return false;
         }
         final Nodo other = (Nodo) obj;
-        if (this.heuristica != other.heuristica) {
-            return false;
-        }
+      //  if (this.heuristica != other.heuristica) {
+       //     return false;
+        //}
         if (!Arrays.deepEquals(this.matriz, other.matriz)) {
             return false;
         }
         return true;
     }
 
+    @Override
+    public Nodo clone() {
+        int [][]m = new int[matriz.length][matriz.length];
+        for (int i=0; i< matriz[0].length; i++){
+            for (int j=0; j< matriz[i].length; j++){
+                m[i][j] = matriz[i][j];
+            }
+        }
+        return new Nodo(m);
+    }
+    
 }
