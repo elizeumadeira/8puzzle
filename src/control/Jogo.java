@@ -22,6 +22,7 @@ public class Jogo {
     private List<Nodo> nodos_fechados;
     private Nodo estado;
     private Nodo objetivo;
+    private int passos= 0;
         
     public Jogo(int[][] objetivo, int[][] estado) {
         this.estado = new Nodo(estado);
@@ -138,7 +139,6 @@ public class Jogo {
                 //int distancia = Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n);
                 //System.out.println("numero: " + n + " linha: " + linha + " linha obj: "+ linha_n + " coluna: " + coluna + " coluna obj: " + coluna_n + " he: " +  distancia );
                 he += Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n);
-
                 /*if (Math.abs(linha - linha_n) <= 1 && Math.abs(coluna - coluna_n) <= 1) {
                 he += 1;
             } else//esta a duas casas de distancia
@@ -158,19 +158,20 @@ public class Jogo {
 
     public void jogar() {
         if (temNodoAberto()) {
-            System.out.println("### Nodos abertos ###");
-            for (Nodo nodo : nodos_abertos){
-                System.out.println(nodo);
-                 System.out.println("Heuristica " + nodo.getHeuristica());
-            }   
-            System.out.println("#####################");
             //pega o primeiro nodo da lista e expande e o remove após expandir
+            if (!isFinal()) {
+                expandeEstado();
+                nodos_fechados.add(this.estado);
+                nodos_abertos.remove(this.estado);
+                System.out.println("Removeu estado: (nodos na fronteira: "+ nodos_abertos.size() + ")");
+                System.out.println(this.estado);
+                passos++;
+            }
             this.estado = nodos_abertos.get(0);
-            expandeEstado();
-            nodos_fechados.add(this.estado);
-            nodos_abertos.remove(this.estado);
+            System.out.println("Passo: " + passos);
+
         } else {
-              
+
         }
         //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
         //System.out.println(this.estado);
@@ -186,10 +187,14 @@ public class Jogo {
      */
     private void expandeEstado() {
         //calcular possibilidades que são os indices alcançaveis a partir da posição 0
-        int movimentos = 0;
+        System.out.println("Expandir o estado:");
+        System.out.println(estado);
+        System.out.println("Heuristica " + this.estado.getHeuristica());
         int linha = 0;
         int coluna = 0;
         int j = 0;
+        int movLinha =0;
+        int movColuna =0;
         while (j < 3) {
             coluna = this.inArray(this.estado.getMatriz()[j], 0);
             if (coluna != -1) {
@@ -198,73 +203,82 @@ public class Jogo {
             }
             j++;
         }
-       
-        if ((linha == coluna && linha == 0) || (linha == 0 && coluna == estado.getN() - 1)
-                || (coluna == 0 && linha == estado.getN() - 1) || (linha == coluna && coluna == estado.getN() - 1)) { // o zero está situado em um dos 4 cantos
-            movimentos = 2;
-        } else if (linha > 0 && coluna > 0 && linha < estado.getN() - 1 && coluna < estado.getN() - 1) { // o zero está no meio
-            movimentos = 4;
-        } else {
-            movimentos = 3;
+        if (linha ==0)
+            movLinha = 1;
+        else if (linha>0&& linha<estado.getN() - 1)
+            movLinha = 2;
+        else
+            movLinha = -1;
+        if (coluna ==0)
+            movColuna = 1;
+        else if (coluna>0&& coluna<estado.getN() - 1)
+            movColuna = 2;
+        else 
+            movColuna = -1;
+        int movY = (movLinha==2 ? -1 : movLinha );
+        int movX = (movColuna==2 ? -1 : movColuna );
+        for (int i = 1; i<= Math.abs(movLinha); i++){
+            int n = estado.getMatriz()[linha+movY][coluna]; 
+            Nodo novoEstado = estado.clone();
+            novoEstado.getMatriz()[linha+movY][coluna] = 0; //troca o numero por zero
+            novoEstado.getMatriz()[linha][coluna] = n;
+            //novoEstado.setHeuristica(this.somaHeuristica(novoEstado.getMatriz()) + novoEstado.getCusto());
+            novoEstado.setHeuristica(this.somaHeuristica(novoEstado.getMatriz()));
+            if (this.insereOrdenado(novoEstado)) {
+                System.out.println("Nodo " + (nodos_abertos.size()));
+                System.out.println(novoEstado);
+                System.out.println("Heuristica " + novoEstado.getHeuristica());
+            }
+            movY *=-1;          
         }
-        switch (movimentos) {
-            case 2: //cantos 
-                //[0] [0] => [0] [1] ou [1] [0]
-                //[0] [2] => [0] [1] ou [1] [2]
-                //[2] [0] => [1] [0] ou [2] [1]
-                //[2] [2] => [2] [1] ou [1] [2]
-                int movY = 0;
-                int movX = 0;
-                if (linha- (estado.getN()-1) <0){ //testa se está na primeira linha ou na última
-                    movY = 1; 
-                }else{
-                    movY = -1;
-                }
-                if (coluna-(estado.getN()-1) <0){ //testa se está na primeira coluna ou na última
-                    movX = 1; 
-                }else{
-                    movX = -1;
-                }
-                int col = 0; //mantêm a mesma coluna e incrementa a linha
-                for (int i=1; i<=movimentos ; i++){
-                    int n = estado.getMatriz()[linha+movY][coluna+col]; 
-                    Nodo novoEstado = estado.clone();
-                    novoEstado.getMatriz()[linha+movY][coluna+col] = 0; //troca o numero por zero
-                    novoEstado.getMatriz()[linha][coluna] = n;
-                    novoEstado.setHeuristica(this.somaHeuristica(novoEstado.getMatriz()) + novoEstado.getCusto());
-                    this.insereOrdenado(novoEstado);
-                    System.out.println("Nodo " + i);
+       for (j = 1; j<= Math.abs(movColuna); j++){
+                
+               int n = estado.getMatriz()[linha][coluna+movX]; 
+                Nodo novoEstado = estado.clone();
+                novoEstado.getMatriz()[linha][coluna+movX] = 0; //troca o numero por zero
+                novoEstado.getMatriz()[linha][coluna] = n;
+                novoEstado.setHeuristica(this.somaHeuristica(novoEstado.getMatriz()) );
+                if (this.insereOrdenado(novoEstado)){
+                    System.out.println("Nodo " + (nodos_abertos.size()));
                     System.out.println(novoEstado);
                     System.out.println("Heuristica " + novoEstado.getHeuristica());
-                    movY = 0; //mantêm a mesma linha e incrementa a coluna
-                    col = movX;
                 }
-               //remove da listaordenada o estado pai 
-            case 3: // pode subtrair a linha ou a coluna e somar a linha ou coluna coluna +=1; coluna -=1;
-                    //[0] [1] => [0] [0] ou [1] [1] ou [0] [2]
-                    //[1] [0] => [0] [0] ou [2] [0] ou [1] [1]
-                    //[1] [1] => [1] [0] ou [1] [2] ou [0] [1] ou [2] [1]
-                    //[1] [2] => [0] [0] ou [2] [0] ou [1] [1]            
-
-            case 4: // meio pode somar e subtrair a linha e a coluna
-        }
-     
+                movX *=-1;
+            }
 
     }
     /** Insere o novo nodo estado na lista ordenada pela sua heurística.
      * 
      * @param estado 
      */
-    private void insereOrdenado(Nodo estado) {
+    private boolean insereOrdenado(Nodo estado) {
         int i = 0;
+        boolean estaFechado = false;
+        boolean estaAberto = false;
+        for (Nodo fechado : nodos_fechados){
+            if (fechado.equals(estado))
+                estaFechado= true;
+        }
+        for (Nodo aberto : nodos_abertos){
+            if (aberto.equals(estado))
+                estaAberto= true;
+        }
+        if (estaFechado || estaAberto){
+            return false;
+        }
         while (i<nodos_abertos.size()){
             Nodo n = nodos_abertos.get(i);
             if (estado.getHeuristica()<n.getHeuristica() || i==nodos_abertos.size()-1){
                 nodos_abertos.add(i, estado);
-                i= nodos_abertos.size();
+                i= nodos_abertos.size();      
             }
             i++;
         }
+        return true;
+    }
+
+    public int getPassos() {
+        return this.passos;
     }
 
 }

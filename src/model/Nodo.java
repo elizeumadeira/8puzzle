@@ -102,9 +102,9 @@ public class Nodo {
             return false;
         }
         final Nodo other = (Nodo) obj;
-        if (this.heuristica != other.heuristica) {
-            return false;
-        }
+      //  if (this.heuristica != other.heuristica) {
+       //     return false;
+        //}
         if (!Arrays.deepEquals(this.matriz, other.matriz)) {
             return false;
         }
