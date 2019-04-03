@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -16,12 +17,14 @@ public class Nodo {
     private int[][] matriz;
     private int heuristica;
     private int custo = 1;
-    private int n;
-    private Nodo proximo_lista;
+    private Nodo pai;
+    private ArrayList<Nodo> filhos;
+    //private Nodo proximo_lista;
 
     public Nodo(int[][] matriz) {
         this.matriz = matriz; 
-        n = matriz[0].length;
+        pai = null;
+        filhos = null;
     }
 
     public int[][] getMatriz() {
@@ -49,8 +52,30 @@ public class Nodo {
     }
 
     public int getN() {
-        return n;
+        return matriz[0].length;
     }
+
+    public Nodo getPai() {
+        return pai;
+    }
+
+    public void setPai(Nodo pai) {
+        this.pai = pai;
+    }
+
+    public ArrayList<Nodo> getFilhos() {
+        return filhos;
+    }
+
+    public void setFilhos(ArrayList<Nodo> filhos) {
+        this.filhos = filhos;
+        if (filhos!= null){
+            for (Nodo f: filhos){
+                f.setPai(this);
+            }
+        }
+    }
+    
     
     @Override
     public String toString() {
@@ -63,9 +88,9 @@ public class Nodo {
 //            m += '\n';
 //        }
 
-        for(int i = 0; i < (n*n); i++){
-            int linha = i/n;
-            int coluna = (int) i%n;
+        for(int i = 0; i < (getN()*getN()); i++){
+            int linha = i/getN();
+            int coluna = (int) i%getN();
             
             if(coluna == 0){
                 m += '\n';
@@ -119,7 +144,10 @@ public class Nodo {
                 m[i][j] = matriz[i][j];
             }
         }
-        return new Nodo(m);
+        Nodo novo = new Nodo(m);
+        novo.setCusto(custo);
+        novo.setHeuristica(heuristica);
+        return novo;
     }
     
 }
