@@ -6,6 +6,7 @@
 package pkg8puzzle;
 
 import control.Jogo;
+import model.Nodo;
 
 /**
  *
@@ -23,21 +24,32 @@ public class Main {
             {4, 5, 6},
             {7, 8, 0}
         };
-
         int inicial[][] = {
-              {1, 2, 3},
-            {4, 0, 6},
-            {7, 8, 5}
+            {3, 5, 2},
+            {0, 6, 4},
+            {7, 1, 8}
+        
         };
+        /*int inicial[][] = {
+            {8, 5, 2},
+            {7, 6, 4},
+            {0, 1, 3}
+        };*/
 
         Jogo j = new Jogo(objetivo, inicial);
         while (!j.isFinal()){  
             j.jogar();
         }
-        System.out.println("Resolvido em " + j.getPassos() + " passos");
+        Nodo solucao = j.getEstado();
+          System.out.println("Resolvido em " + j.getEstado().getCusto()+ " passos");
         //j.imprimeMaiorFronteira();
         //j.imprimeNodosFechados();
         
+      //  while (solucao!=null) {
+       //     System.out.println(solucao);
+       //     solucao = solucao.getPai();
+       // }
+      
         
     }
 
