@@ -21,11 +21,12 @@ public class Jogo {
     private List<Nodo> nodos_abertos;
     private List<Nodo> nodos_fechados;
     private Nodo estado;
-    private Nodo objetivo;  
-        
+    private Nodo objetivo;
+
     public Jogo(int[][] objetivo, int[][] estado) {
         this.estado = new Nodo(estado);
         this.objetivo = new Nodo(objetivo);
+//        System.out.println(this.estado.equals(this.objetivo));
         nodos_abertos = new ArrayList<>();
         nodos_fechados = new ArrayList<>();
         nodos_abertos.add(this.estado);
@@ -35,6 +36,7 @@ public class Jogo {
         this.estado = estado;
         this.objetivo = objetivo;
     }
+
     public Nodo getEstado() {
         return this.estado;
     }
@@ -72,8 +74,7 @@ public class Jogo {
      * (linha x coluna) heuristica= 0, se nao, calcula a heuristica para o
      * numero, somando o numero de casas de distancia do objetivo o numero está.
      *
-     * @param m matriz estado
-     * nesse estado.
+     * @param m matriz estado nesse estado.
      * @return
      */
     public int somaHeuristica(int[][] m) {
@@ -134,18 +135,16 @@ public class Jogo {
             //mesma linha e coluna, nada a fazer
             if (linha == linha_n && coluna == coluna_n) {
                 he += 0;
-            } else { //esta ao lado ou na diagonal
-                if (n>0){ //soma quantas linhas + quantas colunas o numero atual esta fora excetuando o zero
-                  // System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
-                  //  System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
-                    he += Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) ;
-                }
-                /*if (Math.abs(linha - linha_n) <= 1 && Math.abs(coluna - coluna_n) <= 1) {
+            } else //esta ao lado ou na diagonal
+             if (n > 0) { //soma quantas linhas + quantas colunas o numero atual esta fora excetuando o zero
+                    // System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
+                    //  System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
+                    he += Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n);
+                } /*if (Math.abs(linha - linha_n) <= 1 && Math.abs(coluna - coluna_n) <= 1) {
                 he += 1;
             } else//esta a duas casas de distancia
             {
                 he += 2;*/
-            }
 
         }
 
@@ -158,27 +157,33 @@ public class Jogo {
     }
 
     public void jogar() {
-        if (temNodoAberto()) {
-            //pega o primeiro nodo da lista e expande e o remove após expandir
-            if (!isFinal()) {
-                this.estado = nodos_abertos.remove(0);
-                nodos_fechados.add(this.estado);
-                expandeEstado();
-                System.out.println("Removeu estado: (nodos na fronteira: "+ nodos_abertos.size() + ")");
-                //String h ="";
-                //for (Nodo nodos : nodos_abertos){
-                //    h+= nodos.getHeuristica() + "; ";
-               // }
-                //System.out.println(h);
-                System.out.println(this.estado);
-                System.out.println("Passo: " + this.estado.getCusto());
+        while (!isFinal()) {
+            if(!temNodoAberto()){
+                break;
             }
-            
-            
+//        if (temNodoAberto()) {
+            //pega o primeiro nodo da lista e expande e o remove após expandir
+//                Nodo estado_temp = new Nodo(nodos_abertos.get(0).getMatriz());
+            Nodo estado_temp = nodos_abertos.remove(0);
 
-        } else {
+//            if (this.nodos_fechados.contains(estado_temp)) {
+//                continue;
+//            }
+            this.estado = estado_temp;
+            nodos_fechados.add(this.estado);
+            expandeEstado();
+            System.out.println("Removeu estado: (nodos na fronteira: " + nodos_abertos.size() + ")");
+            //String h ="";
+            //for (Nodo nodos : nodos_abertos){
+            //    h+= nodos.getHeuristica() + "; ";
+            // }
+            //System.out.println(h);
+            System.out.println(this.estado);
+            System.out.println("Passo: " + this.estado.getCusto());
+//            }
 
         }
+        System.out.println(this.estado + " Fim de jogo!");
         //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
         //System.out.println(this.estado);
         //System.out.println("Heuristica " + estado.getHeuristica());
@@ -188,8 +193,9 @@ public class Jogo {
     public boolean temNodoAberto() {
         return !nodos_abertos.isEmpty();
     }
+
     /**
-     * 
+     *
      */
     private void expandeEstado() {
         //calcular possibilidades que são os indices alcançaveis a partir da posição 0
@@ -260,39 +266,43 @@ public class Jogo {
         estado.setFilhos(filhos);
 
     }
-    /** Insere o novo nodo estado na lista ordenada pela sua heurística.
-     * 
-     * @param estado 
+
+    /**
+     * Insere o novo nodo estado na lista ordenada pela sua heurística.
+     *
+     * @param estado
      */
     private boolean insereOrdenado(Nodo estado) {
         int i = 0;
         boolean estaFechado = false;
         boolean estaAberto = false;
-        for (Nodo fechado : nodos_fechados){
-            if (fechado.equals(estado))
-                estaFechado= true;
+//        for (Nodo fechado : nodos_fechados) {
+//            if (fechado.equals(estado)) {
+//                estaFechado = true;
+//            }
+//        }
+        estaFechado = this.nodos_fechados.contains(estado);
+
+        for (Nodo aberto : nodos_abertos) {
+            if (aberto.equals(estado)) {
+                estaAberto = true;
+            }
         }
-        for (Nodo aberto : nodos_abertos){
-            if (aberto.equals(estado))
-                estaAberto= true;
-        }
-        if (estaFechado || estaAberto){
+        if (estaFechado || estaAberto) {
             return false;
         }
-        while (i<nodos_abertos.size()){
+        while (i < nodos_abertos.size()) {
             Nodo n = nodos_abertos.get(i);
-            if (estado.getHeuristica()<n.getHeuristica() ){
+            if (estado.getHeuristica() < n.getHeuristica()) {
                 //insere na frente e retorna
-                nodos_abertos.add(i, estado); 
-                return true; 
+                nodos_abertos.add(i, estado);
+                return true;
             }
             i++;
         }
         //se a heurística for a maior dos nodos, insere no final da lista
-        nodos_abertos.add(estado); 
+        nodos_abertos.add(estado);
         return true;
     }
-
-    
 
 }

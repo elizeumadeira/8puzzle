@@ -37,9 +37,9 @@ public class Main {
         };*/
 
         Jogo j = new Jogo(objetivo, inicial);
-        while (!j.isFinal()){  
-            j.jogar();
-        }
+//        while (!j.isFinal()){  
+        j.jogar();
+//        }
         Nodo solucao = j.getEstado();
           System.out.println("Resolvido em " + j.getEstado().getCusto()+ " passos");
         //j.imprimeMaiorFronteira();
