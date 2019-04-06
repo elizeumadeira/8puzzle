@@ -16,15 +16,16 @@ public class Nodo {
 
     private int[][] matriz;
     private int heuristica;
-    private int custo = 1;
+    private int custo = 0;
     private Nodo pai;
-    private ArrayList<Nodo> filhos;
-    //private Nodo proximo_lista;
-
+    private ArrayList<Nodo> filhos;  
+    private Acao movimento;
+    
     public Nodo(int[][] matriz) {
         this.matriz = matriz; 
         pai = null;
         filhos = null;
+        movimento = Acao.NENHUM;
     }
 
     public int[][] getMatriz() {
@@ -66,6 +67,15 @@ public class Nodo {
     public ArrayList<Nodo> getFilhos() {
         return filhos;
     }
+
+    public Acao getMovimento() {
+        return movimento;
+    }
+
+    public void setMovimento(Acao movimento) {
+        this.movimento = movimento;
+    }
+    
 
     public void setFilhos(ArrayList<Nodo> filhos) {
         this.filhos = filhos;
@@ -147,6 +157,7 @@ public class Nodo {
         Nodo novo = new Nodo(m);
         novo.setCusto(custo);
         novo.setHeuristica(heuristica);
+        novo.setMovimento(movimento);
         return novo;
     }
     
