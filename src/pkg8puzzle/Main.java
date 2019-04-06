@@ -6,7 +6,11 @@
 package pkg8puzzle;
 
 import control.Jogo;
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import model.Nodo;
+import view.Tabuleiro;
 
 /**
  *
@@ -33,22 +37,25 @@ public class Main {
         /*int inicial[][] = {
             {8, 5, 2},
             {7, 6, 4},
-            {0, 1, 3}
+            {3, 1, 0}
         };*/
-
-        Jogo j = new Jogo(objetivo, inicial);
-//        while (!j.isFinal()){  
+         //cria a GUI para o tabuleiro
+          Tabuleiro tabuleiro = new Tabuleiro(3, 550, 30);
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Jogo 8-puzzle");
+            frame.setResizable(false);
+            frame.add(tabuleiro, BorderLayout.CENTER);
+            frame.pack();
+            // centralizar a tela
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+        Jogo j = new Jogo(objetivo, inicial, tabuleiro);
         j.jogar();
-//        }
-        Nodo solucao = j.getEstado();
-          System.out.println("Resolvido em " + j.getEstado().getCusto()+ " passos");
-        //j.imprimeMaiorFronteira();
-        //j.imprimeNodosFechados();
-        
-      //  while (solucao!=null) {
-       //     System.out.println(solucao);
-       //     solucao = solucao.getPai();
-       // }
+       
+
       
         
     }
