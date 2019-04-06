@@ -134,85 +134,16 @@ public class Jogo extends Thread {
             if (linha == linha_n && coluna == coluna_n) {
                 he += 0;
             } else //esta ao lado ou na diagonal
-                 { //soma quantas linhas + quantas colunas o numero atual esta fora excetuando o zero
-                    // System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
-                    //  System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
-                    if(Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) == 1){
-                        //procura qual numero esta na posição de N
-                        int p = m[linha_n][coluna_n];
-                        he += this.movNAteP(m, n, p);
-                    }else{//move zero ao lado do numero depois soma com a quantidade 
-                        // de movimentos necessários para move-lo para o lugar correto
-                        he += this.movNAteP(m, 0, n) - 1; //só preciso mover até o lado, não trocar de movimento
-                        
-                        int p = m[linha_n][coluna_n];
-                        he += this.movNAteP(m, n, p); //agora sim calcula a quantidade de movimentos para move-lo parao lugar
-                    }
-                 /*if (Math.abs(linha - linha_n) <= 1 && Math.abs(coluna - coluna_n) <= 1) {
-                he += 1;
-            } else//esta a duas casas de distancia
-            {
-                he += 2;
-             */
-            }
+                  //   System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
+                  //    System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
+                    he += Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n);
+                    //calcula quantos movimentos são necessários para colocar o número no lugar dele
 
             }
             
         }
 
         return he;
-    }
-
-    //calcula quantos movimentos necessarios para mover uma peça de uma posição até outra
-    public int movNAteP(int[][] m, int n, int p) {
-        int linhaN = 0;
-        int colunaN = 0;
-        int linhaP = 0;
-        int colunaP = 0;
-
-        //procura P
-        for (int i = 0; i < 9; i++) {
-            int linha = i / 3;
-            int coluna = (int) i % 3;
-
-            if (m[linha][coluna] == 0) {
-                linhaP = linha;
-                colunaP = coluna;
-                break;
-            }
-        }
-
-        //procura n
-        for (int i = 0; i < 9; i++) {
-            int linha = i / 3;
-            int coluna = (int) i % 3;
-
-            if (m[linha][coluna] == n) {
-                linhaN = linha;
-                colunaN = coluna;
-                break;
-            }
-        }
-
-        //diferença entre a linha de n e a linha de 0
-        int linhaD = Math.abs(linhaN - linhaP);
-
-        //diferença entre a coluna de n e a coluna de 0
-        int colunaD = Math.abs(colunaN - colunaP);
-
-        //n ao lado de 0
-        if ((linhaD == 0 && colunaD == 1)
-                || (linhaD == 1 && colunaD == 0)
-                || (linhaD == 1 && colunaD == 1)) {
-            return 4;
-        } else if (linhaD == 2 && colunaD == 2) {//zero e N em extremos opostos
-            return 10;
-        } else if ((linhaD == 2 && colunaD == 1)//zero esta na linha ou coluna do lado + duas casas de distancia
-                || (linhaD == 1 && colunaD == 2)) {
-            return 9;
-        }
-
-        return 0;
     }
 
     public boolean isFinal() {

@@ -6,6 +6,7 @@
 package pkg8puzzle;
 
 import control.Jogo;
+import control.Jogo2;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -32,15 +33,15 @@ public class Main {
             {3, 5, 2},
             {0, 6, 4},
             {7, 1, 8}
-        
+
         };
         /*int inicial[][] = {
             {8, 5, 2},
             {7, 6, 4},
             {3, 1, 0}
         };*/
-         //cria a GUI para o tabuleiro
-          Tabuleiro tabuleiro = new Tabuleiro(3, 550, 30);
+        //cria a GUI para o tabuleiro
+        Tabuleiro tabuleiro = new Tabuleiro(3, 550, 30);
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,12 +53,14 @@ public class Main {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
-        Jogo j = new Jogo(objetivo, inicial, tabuleiro);
-        j.jogar();
-       
+        if (1 == 2) {
+            Jogo j = new Jogo(objetivo, inicial, tabuleiro);
+            j.run();
+        } else {
+            Jogo2 j = new Jogo2(objetivo, inicial, tabuleiro);
+            j.run();
+        }
 
-      
-        
     }
 
 }
