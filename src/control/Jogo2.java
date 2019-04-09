@@ -272,7 +272,11 @@ public class Jogo2 extends Thread {
             System.out.println(this.estado);
             System.out.println("Passo: " + this.estado.getCusto());
 //            }
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
 
+            }
         }
         System.out.println(this.estado + " Fim de jogo!");
 //        this.escreveNodosFechados();
@@ -306,65 +310,114 @@ public class Jogo2 extends Thread {
         System.out.println("Heuristica " + this.estado.getHeuristica());
         //incrementa o custo
         this.estado.setCusto(estado.getCusto() + 1);
-        int linha = 0;
-        int coluna = 0;
-        int j = 0;
-        int movLinha = 0;
-        int movColuna = 0;
-        while (j < 3) {
-            coluna = this.inArray(this.estado.getMatriz()[j], 0);
-            if (coluna != -1) {
-                linha = j;
-                j = 2;
-            }
-            j++;
-        }
-        if (linha == 0) {
-            movLinha = 1;
-        } else if (linha > 0 && linha < estado.getN() - 1) {
-            movLinha = 2;
-        } else {
-            movLinha = -1;
-        }
-        if (coluna == 0) {
-            movColuna = 1;
-        } else if (coluna > 0 && coluna < estado.getN() - 1) {
-            movColuna = 2;
-        } else {
-            movColuna = -1;
-        }
-        int movY = (movLinha == 2 ? -1 : movLinha);
-        int movX = (movColuna == 2 ? -1 : movColuna);
-        ArrayList<Nodo> filhos = new ArrayList<>();
-        for (int i = 1; i <= Math.abs(movLinha); i++) {
-            int n = estado.getMatriz()[linha + movY][coluna];
-            Nodo filho = estado.clone();
-            filho.getMatriz()[linha + movY][coluna] = 0; //troca o numero por zero
-            filho.getMatriz()[linha][coluna] = n;
-            filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
-            filhos.add(filho);
-            if (this.insereOrdenado(filho)) {
-                System.out.println("Nodo " + (nodos_abertos.size()));
-                System.out.println(filho);
-                System.out.println("Heuristica " + filho.getHeuristica());
-            }
-            movY *= -1;
-        }
-        for (j = 1; j <= Math.abs(movColuna); j++) {
+//        int linha = 0;
+//        int coluna = 0;
+//        int j = 0;
+//        int movLinha = 0;
+//        int movColuna = 0;
 
-            int n = estado.getMatriz()[linha][coluna + movX];
-            Nodo filho = estado.clone();
-            filho.getMatriz()[linha][coluna + movX] = 0; //troca o numero por zero
-            filho.getMatriz()[linha][coluna] = n;
-            filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
-            filhos.add(filho);
+        int[] posZero = this.procuraPosicao(this.estado.getMatriz(), 0);
+
+//        while (j < 3) {
+//            coluna = this.inArray(this.estado.getMatriz()[j], 0);
+//            if (coluna != -1) {
+//                linha = j;
+//                j = 2;
+//            }
+//            j++;
+//        }
+//        if (linha == 0) {
+//            movLinha = 1;
+//        } else if (linha > 0 && linha < estado.getN() - 1) {
+//            movLinha = 2;
+//        } else {
+//            movLinha = -1;
+//        }
+//        if (coluna == 0) {
+//            movColuna = 1;
+//        } else if (coluna > 0 && coluna < estado.getN() - 1) {
+//            movColuna = 2;
+//        } else {
+//            movColuna = -1;
+//        }
+//        int movY = (movLinha == 2 ? -1 : movLinha);
+//        int movX = (movColuna == 2 ? -1 : movColuna);
+        ArrayList<Nodo> filhos = new ArrayList<>();
+//        for (int i = 1; i <= 4; i++) {
+
+            //posição de zero esta na linha 1-2, pode mover para baixo
+            if (posZero[0] < 2) {
+                System.out.println("move pra baixo");
+                Nodo filho1 = estado.clone();
+                filho1.move(posZero[0] + 1, posZero[1], posZero[0], posZero[1]);
+                filho1.setHeuristica(this.somaHeuristica(filho1.getMatriz()) + filho1.getCusto());
+                filhos.add(filho1);
+            }
+
+            //posição do zero esta na linha 2-3, pode mover para cima
+            if (posZero[0] > 1) {
+                System.out.println("move pra cima");
+                Nodo filho2 = estado.clone();
+                filho2.move(posZero[0] - 1, posZero[1], posZero[0], posZero[1]);
+                filho2.setHeuristica(this.somaHeuristica(filho2.getMatriz()) + filho2.getCusto());
+                filhos.add(filho2);
+            }
+
+            //posição do zero esta na coluna 1-2, pode mover para a direita
+            if (posZero[1] < 2) {
+                System.out.println("move pra direita");
+                Nodo filho3 = estado.clone();
+                filho3.move(posZero[0], posZero[1] + 1, posZero[0], posZero[1]);
+                filho3.setHeuristica(this.somaHeuristica(filho3.getMatriz()) + filho3.getCusto());
+                filhos.add(filho3);
+            }
+
+            //posição do zero esta na coluna 2-3, pode mover para a esquerda
+            if (posZero[1] > 1) {
+                System.out.println("move pra esquerda");
+                Nodo filho4 = estado.clone();
+                filho4.move(posZero[0], posZero[1] - 1, posZero[0], posZero[1]);
+                filho4.setHeuristica(this.somaHeuristica(filho4.getMatriz()) + filho4.getCusto());
+                filhos.add(filho4);
+            }
+
+//            int n = estado.getMatriz()[linha + movY][coluna];
+//            Nodo filho = estado.clone();
+//            filho.getMatriz()[linha + movY][coluna] = 0; //troca o numero por zero
+//            filho.getMatriz()[linha][coluna] = n;
+//            filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
+//            filhos.add(filho);
+//            if (this.insereOrdenado(filho)) {
+//                System.out.println("Nodo " + (nodos_abertos.size()));
+//                System.out.println(filho);
+//                System.out.println("Heuristica " + filho.getHeuristica());
+//            }
+//            movY *= -1;
+//        }
+
+        for (Nodo filho : filhos) {
             if (this.insereOrdenado(filho)) {
                 System.out.println("Nodo " + (nodos_abertos.size()));
                 System.out.println(filho);
                 System.out.println("Heuristica " + filho.getHeuristica());
             }
-            movX *= -1;
         }
+
+//        for (j = 1; j <= Math.abs(movColuna); j++) {
+//
+//            int n = estado.getMatriz()[linha][coluna + movX];
+//            Nodo filho = estado.clone();
+//            filho.getMatriz()[linha][coluna + movX] = 0; //troca o numero por zero
+//            filho.getMatriz()[linha][coluna] = n;
+//            filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
+//            filhos.add(filho);
+//            if (this.insereOrdenado(filho)) {
+//                System.out.println("Nodo " + (nodos_abertos.size()));
+//                System.out.println(filho);
+//                System.out.println("Heuristica " + filho.getHeuristica());
+//            }
+//            movX *= -1;
+//        }
         estado.setFilhos(filhos);
 
     }

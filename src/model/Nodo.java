@@ -18,11 +18,11 @@ public class Nodo {
     private int heuristica;
     private int custo = 0;
     private Nodo pai;
-    private ArrayList<Nodo> filhos;  
+    private ArrayList<Nodo> filhos;
     private Acao movimento;
-    
+
     public Nodo(int[][] matriz) {
-        this.matriz = matriz; 
+        this.matriz = matriz;
         pai = null;
         filhos = null;
         movimento = Acao.NENHUM;
@@ -75,43 +75,47 @@ public class Nodo {
     public void setMovimento(Acao movimento) {
         this.movimento = movimento;
     }
-    
+
+    public Nodo move(int linhaTroca, int colunaTroca, int linhaZero, int colunaZero) {
+        int n = this.getMatriz()[linhaTroca][colunaTroca];
+        this.getMatriz()[linhaTroca][colunaTroca] = 0;
+        this.getMatriz()[linhaZero][colunaZero] = n; //troca o numero por zero
+        return this;
+    }
 
     public void setFilhos(ArrayList<Nodo> filhos) {
         this.filhos = filhos;
-        if (filhos!= null){
-            for (Nodo f: filhos){
+        if (filhos != null) {
+            for (Nodo f : filhos) {
                 f.setPai(this);
             }
         }
     }
-    
-    
+
     @Override
     public String toString() {
         String m = "";
-        
+
 //        for(int i = 0; i < 3; i++){
 //            for(int j = 0; j < 3; j++){
 //                m += this.matriz[i][j] + " ";
 //            }
 //            m += '\n';
 //        }
+        for (int i = 0; i < (getN() * getN()); i++) {
+            int linha = i / getN();
+            int coluna = (int) i % getN();
 
-        for(int i = 0; i < (getN()*getN()); i++){
-            int linha = i/getN();
-            int coluna = (int) i%getN();
-            
-            if(coluna == 0){
+            if (coluna == 0) {
                 m += '\n';
             }
-            
+
             m += this.matriz[linha][coluna] + " ";
         }
-        
+
         m += '\n';
         m += "--------------";
-        
+
         return m;
     }
 
@@ -120,11 +124,10 @@ public class Nodo {
         int hash = 3;
         return hash;
     }
-    
+
 //    public int[] getMovimentos(){
 //        
 //    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -137,8 +140,8 @@ public class Nodo {
             return false;
         }
         final Nodo other = (Nodo) obj;
-      //  if (this.heuristica != other.heuristica) {
-       //     return false;
+        //  if (this.heuristica != other.heuristica) {
+        //     return false;
         //}
         if (!Arrays.deepEquals(this.matriz, other.matriz)) {
             return false;
@@ -148,9 +151,9 @@ public class Nodo {
 
     @Override
     public Nodo clone() {
-        int [][]m = new int[matriz.length][matriz.length];
-        for (int i=0; i< matriz[0].length; i++){
-            for (int j=0; j< matriz[i].length; j++){
+        int[][] m = new int[matriz.length][matriz.length];
+        for (int i = 0; i < matriz[0].length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
                 m[i][j] = matriz[i][j];
             }
         }
@@ -160,5 +163,5 @@ public class Nodo {
         novo.setMovimento(movimento);
         return novo;
     }
-    
+
 }
