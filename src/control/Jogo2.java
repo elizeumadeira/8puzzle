@@ -16,7 +16,7 @@ import view.Tabuleiro;
  *
  * @author Elizeu-pc
  */
-public class Jogo2 {
+public class Jogo2 extends Thread {
 
     //private Nodo nodos_abertos;
     private List<Nodo> nodos_abertos;
@@ -32,7 +32,7 @@ public class Jogo2 {
         nodos_abertos = new ArrayList<>();
         nodos_fechados = new ArrayList<>();
         nodos_abertos.add(this.estado);
-        this.tabuleiro= tabuleiro;
+        this.tabuleiro = tabuleiro;
     }
 
     public Jogo2(Nodo objetivo, Nodo estado) {
@@ -139,21 +139,21 @@ public class Jogo2 {
             if (linha == linha_n && coluna == coluna_n) {
                 he += 0;
             } else //esta ao lado ou na diagonal
-                 { //soma quantas linhas + quantas colunas o numero atual esta fora excetuando o zero
-                    // System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
-                    //  System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
-                    if(Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) == 1){
-                        //procura qual numero esta na posição de N
-                        int p = m[linha_n][coluna_n];
-                        he += this.movNAteP(m, n, p);
-                    }else{//move zero ao lado do numero depois soma com a quantidade 
-                        // de movimentos necessários para move-lo para o lugar correto
-                        he += this.movNAteP(m, 0, n) - 1; //só preciso mover até o lado, não trocar de movimento
-                        
-                        int p = m[linha_n][coluna_n];
-                        he += this.movNAteP(m, n, p); //agora sim calcula a quantidade de movimentos para move-lo parao lugar
-                    }
-                 /*if (Math.abs(linha - linha_n) <= 1 && Math.abs(coluna - coluna_n) <= 1) {
+            //soma quantas linhas + quantas colunas o numero atual esta fora excetuando o zero
+            // System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
+            //  System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
+            {
+                if (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) == 1) {
+                    //procura qual numero esta na posição de N
+                    int p = m[linha_n][coluna_n];
+                    he += this.movNAteP(m, n, p);
+                } else {//move zero ao lado do numero depois soma com a quantidade 
+                    // de movimentos necessários para move-lo para o lugar correto
+                    he += this.movNAteP(m, 0, n) - 1; //só preciso mover até o lado, não trocar de movimento
+
+                    int p = m[linha_n][coluna_n];
+                    he += this.movNAteP(m, n, p); //agora sim calcula a quantidade de movimentos para move-lo parao lugar
+                } /*if (Math.abs(linha - linha_n) <= 1 && Math.abs(coluna - coluna_n) <= 1) {
                 he += 1;
             } else//esta a duas casas de distancia
             {
@@ -166,6 +166,22 @@ public class Jogo2 {
         return he;
     }
 
+    public int[] procuraPosicao(int[][] m, int n) {
+        int res[] = {0, 0};
+        for (int i = 0; i < 9; i++) {
+            int linha = i / 3;
+            int coluna = (int) i % 3;
+
+            if (m[linha][coluna] == n) {
+                res[0] = linha;
+                res[1] = coluna;
+                break;
+            }
+        }
+
+        return res;
+    }
+
     //calcula quantos movimentos necessarios para mover uma peça de uma posição até outra
     public int movNAteP(int[][] m, int n, int p) {
         int linhaN = 0;
@@ -174,28 +190,34 @@ public class Jogo2 {
         int colunaP = 0;
 
         //procura P
-        for (int i = 0; i < 9; i++) {
-            int linha = i / 3;
-            int coluna = (int) i % 3;
-
-            if (m[linha][coluna] == 0) {
-                linhaP = linha;
-                colunaP = coluna;
-                break;
-            }
-        }
+        int[] posicaoP = this.procuraPosicao(m, 0);
+        linhaP = posicaoP[0];
+        colunaP = posicaoP[1];
+//        for (int i = 0; i < 9; i++) {
+//            int linha = i / 3;
+//            int coluna = (int) i % 3;
+//
+//            if (m[linha][coluna] == 0) {
+//                linhaP = linha;
+//                colunaP = coluna;
+//                break;
+//            }
+//        }
 
         //procura n
-        for (int i = 0; i < 9; i++) {
-            int linha = i / 3;
-            int coluna = (int) i % 3;
-
-            if (m[linha][coluna] == n) {
-                linhaN = linha;
-                colunaN = coluna;
-                break;
-            }
-        }
+        int[] posicaoN = this.procuraPosicao(m, n);
+        linhaN = posicaoN[0];
+        colunaN = posicaoN[1];
+//        for (int i = 0; i < 9; i++) {
+//            int linha = i / 3;
+//            int coluna = (int) i % 3;
+//
+//            if (m[linha][coluna] == n) {
+//                linhaN = linha;
+//                colunaN = coluna;
+//                break;
+//            }
+//        }
 
         //diferença entre a linha de n e a linha de 0
         int linhaD = Math.abs(linhaN - linhaP);
@@ -223,6 +245,7 @@ public class Jogo2 {
         //return nodos_abertos.equals(this.estado);
     }
 
+    @Override
     public void run() {
         while (!isFinal()) {
             if (!temNodoAberto()) {
@@ -252,10 +275,21 @@ public class Jogo2 {
 
         }
         System.out.println(this.estado + " Fim de jogo!");
+//        this.escreveNodosFechados();
+
         //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
         //System.out.println(this.estado);
         //System.out.println("Heuristica " + estado.getHeuristica());
+    }
 
+    public void escreveNodosFechados() {
+        int i = 0;
+        for (Nodo caminho : nodos_fechados) {
+            System.out.println("Nodo nº" + (i + 1));
+            System.out.println(caminho);
+            System.out.println("============");
+            i++;
+        }
     }
 
     public boolean temNodoAberto() {

@@ -192,7 +192,7 @@ public class Jogo extends Thread {
                 //System.out.println(h);
 
 //            }
-                   this.sleep(500); 
+//                   this.sleep(500); 
             }
             System.out.println(this.estado + " Fim de jogo! Resolvido em " + passo + " passos(s)");
             tabuleiro.setFinal(passo);
