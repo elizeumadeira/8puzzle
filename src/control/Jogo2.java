@@ -249,6 +249,7 @@ public class Jogo2 extends Thread {
     public void run() {
         while (!isFinal()) {
             if (!temNodoAberto()) {
+                System.out.println("Sem nodos abertos");
                 break;
             }
 //        if (temNodoAberto()) {
@@ -263,20 +264,21 @@ public class Jogo2 extends Thread {
             nodos_fechados.add(this.estado);
             tabuleiro.setEstado(this.estado.getMatriz());
             expandeEstado();
-            System.out.println("Removeu estado: (nodos na fronteira: " + nodos_abertos.size() + ")");
+//            System.out.println("Removeu estado: (nodos na fronteira: " + nodos_abertos.size() + ")");
             //String h ="";
             //for (Nodo nodos : nodos_abertos){
             //    h+= nodos.getHeuristica() + "; ";
             // }
             //System.out.println(h);
-            System.out.println(this.estado);
-            System.out.println("Passo: " + this.estado.getCusto());
+//            System.out.println(this.estado);
+//            System.out.println("Passo: " + this.estado.getCusto());
 //            }
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (Exception e) {
+//
+//            }
+            System.out.println("---------------------------------");
         }
         System.out.println(this.estado + " Fim de jogo!");
 //        this.escreveNodosFechados();
@@ -305,7 +307,7 @@ public class Jogo2 extends Thread {
      */
     private void expandeEstado() {
         //calcular possibilidades que são os indices alcançaveis a partir da posição 0
-        System.out.println("Expandir o estado:");
+        System.out.print("Expandir o estado:");
         System.out.println(estado);
         System.out.println("Heuristica " + this.estado.getHeuristica());
         //incrementa o custo
@@ -345,41 +347,45 @@ public class Jogo2 extends Thread {
         ArrayList<Nodo> filhos = new ArrayList<>();
 //        for (int i = 1; i <= 4; i++) {
 
-            //posição de zero esta na linha 1-2, pode mover para baixo
-            if (posZero[0] < 2) {
+        //posição de zero esta na linha 0-1, pode mover para baixo
+        if (posZero[0] < 2) {
+            Nodo filho1 = estado.clone();
+            filho1.move(posZero[0] + 1, posZero[1], posZero[0], posZero[1]);
+            filho1.setHeuristica(this.somaHeuristica(filho1.getMatriz()) + filho1.getCusto());
+            filhos.add(filho1);
                 System.out.println("move pra baixo");
-                Nodo filho1 = estado.clone();
-                filho1.move(posZero[0] + 1, posZero[1], posZero[0], posZero[1]);
-                filho1.setHeuristica(this.somaHeuristica(filho1.getMatriz()) + filho1.getCusto());
-                filhos.add(filho1);
-            }
+//                System.out.println(filho1);
+        }
 
-            //posição do zero esta na linha 2-3, pode mover para cima
-            if (posZero[0] > 1) {
+        //posição do zero esta na linha 1-2, pode mover para cima
+        if (posZero[0] > 0) {
+            Nodo filho2 = estado.clone();
+            filho2.move(posZero[0] - 1, posZero[1], posZero[0], posZero[1]);
+            filho2.setHeuristica(this.somaHeuristica(filho2.getMatriz()) + filho2.getCusto());
+            filhos.add(filho2);
                 System.out.println("move pra cima");
-                Nodo filho2 = estado.clone();
-                filho2.move(posZero[0] - 1, posZero[1], posZero[0], posZero[1]);
-                filho2.setHeuristica(this.somaHeuristica(filho2.getMatriz()) + filho2.getCusto());
-                filhos.add(filho2);
-            }
+//                System.out.println(filho2);
+        }
 
-            //posição do zero esta na coluna 1-2, pode mover para a direita
-            if (posZero[1] < 2) {
+        //posição do zero esta na coluna 0-1, pode mover para a direita
+        if (posZero[1] < 2) {
+            Nodo filho3 = estado.clone();
+            filho3.move(posZero[0], posZero[1] + 1, posZero[0], posZero[1]);
+            filho3.setHeuristica(this.somaHeuristica(filho3.getMatriz()) + filho3.getCusto());
+            filhos.add(filho3);
                 System.out.println("move pra direita");
-                Nodo filho3 = estado.clone();
-                filho3.move(posZero[0], posZero[1] + 1, posZero[0], posZero[1]);
-                filho3.setHeuristica(this.somaHeuristica(filho3.getMatriz()) + filho3.getCusto());
-                filhos.add(filho3);
-            }
+//                System.out.println(filho3);
+        }
 
-            //posição do zero esta na coluna 2-3, pode mover para a esquerda
-            if (posZero[1] > 1) {
+        //posição do zero esta na coluna 1-2, pode mover para a esquerda
+        if (posZero[1] > 0) {
+            Nodo filho4 = estado.clone();
+            filho4.move(posZero[0], posZero[1] - 1, posZero[0], posZero[1]);
+            filho4.setHeuristica(this.somaHeuristica(filho4.getMatriz()) + filho4.getCusto());
+            filhos.add(filho4);
                 System.out.println("move pra esquerda");
-                Nodo filho4 = estado.clone();
-                filho4.move(posZero[0], posZero[1] - 1, posZero[0], posZero[1]);
-                filho4.setHeuristica(this.somaHeuristica(filho4.getMatriz()) + filho4.getCusto());
-                filhos.add(filho4);
-            }
+//                System.out.println(filho4);
+        }
 
 //            int n = estado.getMatriz()[linha + movY][coluna];
 //            Nodo filho = estado.clone();
@@ -394,7 +400,6 @@ public class Jogo2 extends Thread {
 //            }
 //            movY *= -1;
 //        }
-
         for (Nodo filho : filhos) {
             if (this.insereOrdenado(filho)) {
                 System.out.println("Nodo " + (nodos_abertos.size()));
@@ -418,8 +423,7 @@ public class Jogo2 extends Thread {
 //            }
 //            movX *= -1;
 //        }
-        estado.setFilhos(filhos);
-
+//        estado.setFilhos(filhos);
     }
 
     /**

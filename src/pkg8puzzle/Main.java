@@ -30,18 +30,18 @@ public class Main {
             {4, 5, 6},
             {7, 8, 0}
         };
-        /**int inicial[][] = {
+        int inicial[][] = {
             {3, 5, 2},
             {0, 6, 4},
             {7, 1, 8}
 
-        };*/
-        int inicial[][] = {
-            {8, 5, 2},
-            {7, 6, 4},
-            {3, 1, 0}
         };
-        if (GFG.isSolvable(inicial)) {
+//        int inicial[][] = {
+//            {8, 5, 2},
+//            {7, 6, 4},
+//            {3, 1, 0}
+//        };
+//        if (GFG.isSolvable(inicial)) {
             //cria a GUI para o tabuleiro
             Tabuleiro tabuleiro = new Tabuleiro(3, 550, 30);
             SwingUtilities.invokeLater(() -> {
@@ -62,9 +62,9 @@ public class Main {
                 Jogo2 j = new Jogo2(objetivo, inicial, tabuleiro);
                 j.run();
             }
-       } else {
-            System.out.println("O estado inicial não é solucionável!");
-        }
+//       } else {
+//            System.out.println("O estado inicial não é solucionável!");
+//        }
 
     }
 
