@@ -16,7 +16,11 @@ import view.Tabuleiro;
  *
  * @author Elizeu-pc
  */
+<<<<<<< HEAD
+public class Jogo2 extends Thread{
+=======
 public class Jogo2 extends Thread {
+>>>>>>> upstream/master
 
     //private Nodo nodos_abertos;
     private List<Nodo> nodos_abertos;
@@ -247,6 +251,7 @@ public class Jogo2 extends Thread {
 
     @Override
     public void run() {
+        try{
         while (!isFinal()) {
             if (!temNodoAberto()) {
                 break;
@@ -261,7 +266,7 @@ public class Jogo2 extends Thread {
 //            }
             this.estado = estado_temp;
             nodos_fechados.add(this.estado);
-            tabuleiro.setEstado(this.estado.getMatriz());
+          //  tabuleiro.setEstado(this.estado.getMatriz());
             expandeEstado();
             System.out.println("Removeu estado: (nodos na fronteira: " + nodos_abertos.size() + ")");
             //String h ="";
@@ -274,6 +279,35 @@ public class Jogo2 extends Thread {
 //            }
 
         }
+<<<<<<< HEAD
+        System.out.println(this.estado + " Fim de jogo! Resolvido em " + this.estado.getCusto() + " passos(s)");
+        //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
+        //System.out.println(this.estado);
+        //System.out.println("Heuristica " + estado.getHeuristica());
+           Nodo solucao = this.estado;
+           ArrayList<Nodo> arvoreSolucao = new ArrayList<>();
+           arvoreSolucao.add(solucao);
+        while (solucao!=null) {
+          //  System.out.println(solucao);
+            solucao = solucao.getPai();
+            if (solucao!=null){
+                arvoreSolucao.add(solucao);
+            }
+        }
+        for (int i=arvoreSolucao.size()-1; i>=0 ; i--){
+            System.out.println(i);
+            solucao = arvoreSolucao.get(i);
+                    tabuleiro.setEstado(solucao.getMatriz());
+                this.sleep(500); 
+
+        }
+        tabuleiro.setFinal(this.estado.getCusto());
+        tabuleiro.setEstado(solucao.getMatriz());
+         
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+=======
         System.out.println(this.estado + " Fim de jogo!");
 //        this.escreveNodosFechados();
 
@@ -289,6 +323,7 @@ public class Jogo2 extends Thread {
             System.out.println(caminho);
             System.out.println("============");
             i++;
+>>>>>>> upstream/master
         }
     }
 
