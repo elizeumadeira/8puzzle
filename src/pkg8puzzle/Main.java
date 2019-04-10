@@ -36,6 +36,12 @@ public class Main {
             {7, 1, 8}
 
         };*/
+        /**int inicial[][] = { //sem solução
+            {8, 1, 2},
+            {0, 4, 3},
+            {7, 6, 5}
+
+        };*/
         int inicial[][] = {
             {8, 5, 2},
             {7, 6, 4},

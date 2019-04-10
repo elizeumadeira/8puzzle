@@ -5,10 +5,9 @@
  */
 package control;
 
-import helpers.Helper;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import model.Acao;
 import model.Nodo;
 import view.Tabuleiro;
 
@@ -16,11 +15,7 @@ import view.Tabuleiro;
  *
  * @author Elizeu-pc
  */
-<<<<<<< HEAD
 public class Jogo2 extends Thread{
-=======
-public class Jogo2 extends Thread {
->>>>>>> upstream/master
 
     //private Nodo nodos_abertos;
     private List<Nodo> nodos_abertos;
@@ -269,51 +264,38 @@ public class Jogo2 extends Thread {
           //  tabuleiro.setEstado(this.estado.getMatriz());
             expandeEstado();
             System.out.println("Removeu estado: (nodos na fronteira: " + nodos_abertos.size() + ")");
-            //String h ="";
-            //for (Nodo nodos : nodos_abertos){
-            //    h+= nodos.getHeuristica() + "; ";
-            // }
-            //System.out.println(h);
             System.out.println(this.estado);
             System.out.println("Passo: " + this.estado.getCusto());
 //            }
 
         }
-<<<<<<< HEAD
         System.out.println(this.estado + " Fim de jogo! Resolvido em " + this.estado.getCusto() + " passos(s)");
         //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
         //System.out.println(this.estado);
         //System.out.println("Heuristica " + estado.getHeuristica());
+          
            Nodo solucao = this.estado;
            ArrayList<Nodo> arvoreSolucao = new ArrayList<>();
            arvoreSolucao.add(solucao);
+           
         while (solucao!=null) {
-          //  System.out.println(solucao);
             solucao = solucao.getPai();
             if (solucao!=null){
                 arvoreSolucao.add(solucao);
             }
         }
         for (int i=arvoreSolucao.size()-1; i>=0 ; i--){
-            System.out.println(i);
             solucao = arvoreSolucao.get(i);
-                    tabuleiro.setEstado(solucao.getMatriz());
-                this.sleep(500); 
+                tabuleiro.setEstado(solucao.getMatriz(), "Movimento " + solucao.getMovimento().toString());
+            this.sleep(500); 
 
         }
         tabuleiro.setFinal(this.estado.getCusto());
-        tabuleiro.setEstado(solucao.getMatriz());
+        tabuleiro.setEstado(solucao.getMatriz(), "");
          
-
         }catch (Exception ex){
             ex.printStackTrace();
-=======
-        System.out.println(this.estado + " Fim de jogo!");
-//        this.escreveNodosFechados();
-
-        //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
-        //System.out.println(this.estado);
-        //System.out.println("Heuristica " + estado.getHeuristica());
+        }
     }
 
     public void escreveNodosFechados() {
@@ -323,7 +305,6 @@ public class Jogo2 extends Thread {
             System.out.println(caminho);
             System.out.println("============");
             i++;
->>>>>>> upstream/master
         }
     }
 
@@ -331,77 +312,49 @@ public class Jogo2 extends Thread {
         return !nodos_abertos.isEmpty();
     }
 
-    /**
-     *
+    /** Método responsável por verificar os movimentos possíveis 
+     *  para o estado atual e calcular a heurística de cada um.
      */
     private void expandeEstado() {
-        //calcular possibilidades que são os indices alcançaveis a partir da posição 0
+        
         System.out.println("Expandir o estado:");
-        System.out.println(estado);
+        System.out.println(this.estado);
         System.out.println("Heuristica " + this.estado.getHeuristica());
         //incrementa o custo
         this.estado.setCusto(estado.getCusto() + 1);
-        int linha = 0;
         int coluna = 0;
-        int j = 0;
-        int movLinha = 0;
-        int movColuna = 0;
-        while (j < 3) {
-            coluna = this.inArray(this.estado.getMatriz()[j], 0);
-            if (coluna != -1) {
-                linha = j;
-                j = 2;
-            }
-            j++;
-        }
-        if (linha == 0) {
-            movLinha = 1;
-        } else if (linha > 0 && linha < estado.getN() - 1) {
-            movLinha = 2;
-        } else {
-            movLinha = -1;
-        }
-        if (coluna == 0) {
-            movColuna = 1;
-        } else if (coluna > 0 && coluna < estado.getN() - 1) {
-            movColuna = 2;
-        } else {
-            movColuna = -1;
-        }
-        int movY = (movLinha == 2 ? -1 : movLinha);
-        int movX = (movColuna == 2 ? -1 : movColuna);
+        int linha = 0;
+        Acao [] acao = {Acao.A_ESQUERDA, Acao.A_DIREITA, Acao.A_BAIXO, Acao.A_CIMA}; 
         ArrayList<Nodo> filhos = new ArrayList<>();
-        for (int i = 1; i <= Math.abs(movLinha); i++) {
-            int n = estado.getMatriz()[linha + movY][coluna];
-            Nodo filho = estado.clone();
-            filho.getMatriz()[linha + movY][coluna] = 0; //troca o numero por zero
-            filho.getMatriz()[linha][coluna] = n;
-            filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
-            filhos.add(filho);
-            if (this.insereOrdenado(filho)) {
-                System.out.println("Nodo " + (nodos_abertos.size()));
-                System.out.println(filho);
-                System.out.println("Heuristica " + filho.getHeuristica());
+        while (linha < estado.getN()) {
+            coluna = this.inArray(this.estado.getMatriz()[linha], 0);
+            if (coluna != -1) { //quando encontra o zero
+                int [][] direcoes = {{linha, coluna-1}, {linha, coluna+1}, {linha+1, coluna},  {linha-1, coluna}}; //Esquerda, Direita, Abaixo, Acima
+                //percorre cada um dos movimentos possíveis no array direcoes
+                for (int k = 0 ; k< direcoes.length ; k++){
+                    int l = direcoes [k][0];
+                    int c = direcoes [k][1];
+                    //se na posição do zero for possível executar o movimento, ou seja, o cálculo de l e c estiverem dentro dos limites da matriz
+                    if (l >= 0 && c >= 0 && l < estado.getN() && c < estado.getN()) {
+                        int n = estado.getMatriz()[l][c];
+                        Nodo filho = estado.clone();
+                        filho.getMatriz()[l][c] = 0; //troca o numero por zero
+                        filho.getMatriz()[linha][coluna] = n;
+                        filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
+                        filho.setMovimento(acao[k]);          
+                        filhos.add(filho);
+                        if (this.insereOrdenado(filho)) {
+                            System.out.println("+ Nodo " + nodos_abertos.size()  + " (movimento a " + filho.getMovimento() + " )");
+                            System.out.println(filho);
+                            System.out.println("Heuristica " + filho.getHeuristica());
+                        }
+                    }
+                }
+                break;
             }
-            movY *= -1;
+            linha++;
         }
-        for (j = 1; j <= Math.abs(movColuna); j++) {
-
-            int n = estado.getMatriz()[linha][coluna + movX];
-            Nodo filho = estado.clone();
-            filho.getMatriz()[linha][coluna + movX] = 0; //troca o numero por zero
-            filho.getMatriz()[linha][coluna] = n;
-            filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
-            filhos.add(filho);
-            if (this.insereOrdenado(filho)) {
-                System.out.println("Nodo " + (nodos_abertos.size()));
-                System.out.println(filho);
-                System.out.println("Heuristica " + filho.getHeuristica());
-            }
-            movX *= -1;
-        }
-        estado.setFilhos(filhos);
-
+        this.estado.setFilhos(filhos);
     }
 
     /**
