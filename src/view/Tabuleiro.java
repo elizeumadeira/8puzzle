@@ -32,6 +32,8 @@ public class Tabuleiro extends JPanel {
     private int margem;
     private boolean isFinal; // verdadeiro se a matriz é o objetivo, do contrário falso
     private int passos;
+    // Qualquer mensagem  que se deseja imprimir na parte de baixo do tabuleiro
+    private String mensagem = "";
 
     public Tabuleiro(int tamanho, int dimensao, int margem) {
         this.margem = margem;
@@ -80,17 +82,17 @@ public class Tabuleiro extends JPanel {
     }
     /** Se o atributo isFinal for verdadeiro, desenha a mensagem 
      *  de sucesso e o número de passos que levou para resolver.
-     * 
+     *  Do contrario desenha o string contido no atributo mensagem.
      * @param g objeto para redenrizar formas bidimensionais, texto e imagens.
      */
-    private void desenhaFinal(Graphics2D g) {
+    private void desenhaMensagem(Graphics2D g) {
         if (isFinal) {
-            g.setFont(getFont().deriveFont(Font.BOLD, 18));
-            g.setColor(FOREGROUND_COLOR);
-            String s = "Sucesso! Resolvido em " + passos + " passos.";
-            g.drawString(s, (getWidth() - g.getFontMetrics().stringWidth(s)) / 2,
-                    getHeight() - margem);
+            mensagem = "Sucesso! Resolvido em " + passos + " passos.";
         }
+        g.setFont(getFont().deriveFont(Font.BOLD, 18));
+        g.setColor(FOREGROUND_COLOR);
+        g.drawString(mensagem, (getWidth() - g.getFontMetrics().stringWidth(mensagem)) / 2,
+                getHeight() - margem);
     }
     /** Desenha no JPanel o texto que representa um número da matriz .
      * 
@@ -114,11 +116,12 @@ public class Tabuleiro extends JPanel {
         Graphics2D g2D = (Graphics2D) g;
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         desenhaGrade(g2D);
-        desenhaFinal(g2D);
+        desenhaMensagem(g2D);
     }
 
-    public void setEstado(int[][] matriz) {
+    public void setEstado(int[][] matriz, String acao) {
         this.matriz = matriz;
+        this.mensagem = acao;
         repaint();
     }
 
