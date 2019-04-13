@@ -15,7 +15,7 @@ import view.Tabuleiro;
  *
  * @author Elizeu-pc
  */
-public class Jogo2 extends Thread{
+public class Jogo2 extends Thread {
 
     //private Nodo nodos_abertos;
     private List<Nodo> nodos_abertos;
@@ -152,12 +152,7 @@ public class Jogo2 extends Thread{
 
                     int p = m[linha_n][coluna_n];
                     he += this.movNAteP(m, n, p); //agora sim calcula a quantidade de movimentos para move-lo parao lugar
-                } /*if (Math.abs(linha - linha_n) <= 1 && Math.abs(coluna - coluna_n) <= 1) {
-                he += 1;
-            } else//esta a duas casas de distancia
-            {
-                he += 2;
-             */
+                }
             }
 
         }
@@ -246,54 +241,62 @@ public class Jogo2 extends Thread{
 
     @Override
     public void run() {
-        try{
-        while (!isFinal()) {
-            if (!temNodoAberto()) {
-                break;
-            }
+        try {
+            int ultCusto = 1;
+            while (!isFinal()) {
+                if (!temNodoAberto()) {
+                    break;
+                }
 //        if (temNodoAberto()) {
-            //pega o primeiro nodo da lista e expande e o remove após expandir
+                //pega o primeiro nodo da lista e expande e o remove após expandir
 //                Nodo estado_temp = new Nodo(nodos_abertos.get(0).getMatriz());
-            Nodo estado_temp = nodos_abertos.remove(0);
 
+                Nodo estado_temp = nodos_abertos.remove(0);
+
+//                if((ultCusto+1) == estado_temp.getCusto()){
+//                    tabuleiro.setEstado(estado_temp.getMatriz(),"Nivel "+ (ultCusto+1));
+//                    ultCusto = estado_temp.getCusto();
+//                    Thread.sleep(500);
+//                }
 //            if (this.nodos_fechados.contains(estado_temp)) {
 //                continue;
 //            }
-            this.estado = estado_temp;
-            nodos_fechados.add(this.estado);
-          //  tabuleiro.setEstado(this.estado.getMatriz());
-            expandeEstado();
-            System.out.println("Removeu estado: (nodos na fronteira: " + nodos_abertos.size() + ")");
-            System.out.println(this.estado);
-            System.out.println("Passo: " + this.estado.getCusto());
+                this.estado = estado_temp;
+                nodos_fechados.add(this.estado);
+                //  tabuleiro.setEstado(this.estado.getMatriz(),"");
+                expandeEstado();
+                System.out.println("Removeu estado: (nodos na fronteira: " + nodos_abertos.size() + ")");
+                System.out.println(this.estado);
+                System.out.println("Passo: " + this.estado.getCusto());
 //            }
 
-        }
-        System.out.println(this.estado + " Fim de jogo! Resolvido em " + this.estado.getCusto() + " passos(s)");
-        //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
-        //System.out.println(this.estado);
-        //System.out.println("Heuristica " + estado.getHeuristica());
-          
-           Nodo solucao = this.estado;
-           ArrayList<Nodo> arvoreSolucao = new ArrayList<>();
-           arvoreSolucao.add(solucao);
-           
-        while (solucao!=null) {
-            solucao = solucao.getPai();
-            if (solucao!=null){
-                arvoreSolucao.add(solucao);
             }
-        }
-        for (int i=arvoreSolucao.size()-1; i>=0 ; i--){
-            solucao = arvoreSolucao.get(i);
-                tabuleiro.setEstado(solucao.getMatriz(), "Movimento " + solucao.getMovimento().toString());
-            this.sleep(500); 
+            System.out.println(this.estado + " Fim de jogo! Resolvido em " + this.estado.getCusto() + " passos(s)");
+            //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
+            //System.out.println(this.estado);
+            //System.out.println("Heuristica " + estado.getHeuristica());
 
-        }
-        tabuleiro.setFinal(this.estado.getCusto());
-        tabuleiro.setEstado(solucao.getMatriz(), "");
-         
-        }catch (Exception ex){
+            Nodo solucao = this.estado;
+            ArrayList<Nodo> arvoreSolucao = new ArrayList<>();
+            arvoreSolucao.add(solucao);
+
+            while (solucao != null) {
+                solucao = solucao.getPai();
+                if (solucao != null) {
+                    arvoreSolucao.add(solucao);
+                }
+            }
+
+            for (int i = arvoreSolucao.size() - 1; i >= 0; i--) {
+                solucao = arvoreSolucao.get(i);
+                tabuleiro.setEstado(solucao.getMatriz(), "Movimento " + solucao.getMovimento().toString());
+                this.sleep(500);
+
+            }
+            tabuleiro.setFinal(this.estado.getCusto());
+            tabuleiro.setEstado(solucao.getMatriz(), "");
+
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -312,11 +315,12 @@ public class Jogo2 extends Thread{
         return !nodos_abertos.isEmpty();
     }
 
-    /** Método responsável por verificar os movimentos possíveis 
-     *  para o estado atual e calcular a heurística de cada um.
+    /**
+     * Método responsável por verificar os movimentos possíveis para o estado
+     * atual e calcular a heurística de cada um.
      */
     private void expandeEstado() {
-        
+
         System.out.println("Expandir o estado:");
         System.out.println(this.estado);
         System.out.println("Heuristica " + this.estado.getHeuristica());
@@ -324,16 +328,16 @@ public class Jogo2 extends Thread{
         this.estado.setCusto(estado.getCusto() + 1);
         int coluna = 0;
         int linha = 0;
-        Acao [] acao = {Acao.A_ESQUERDA, Acao.A_DIREITA, Acao.A_BAIXO, Acao.A_CIMA}; 
+        Acao[] acao = {Acao.A_ESQUERDA, Acao.A_DIREITA, Acao.A_BAIXO, Acao.A_CIMA};
         ArrayList<Nodo> filhos = new ArrayList<>();
         while (linha < estado.getN()) {
             coluna = this.inArray(this.estado.getMatriz()[linha], 0);
             if (coluna != -1) { //quando encontra o zero
-                int [][] direcoes = {{linha, coluna-1}, {linha, coluna+1}, {linha+1, coluna},  {linha-1, coluna}}; //Esquerda, Direita, Abaixo, Acima
+                int[][] direcoes = {{linha, coluna - 1}, {linha, coluna + 1}, {linha + 1, coluna}, {linha - 1, coluna}}; //Esquerda, Direita, Abaixo, Acima
                 //percorre cada um dos movimentos possíveis no array direcoes
-                for (int k = 0 ; k< direcoes.length ; k++){
-                    int l = direcoes [k][0];
-                    int c = direcoes [k][1];
+                for (int k = 0; k < direcoes.length; k++) {
+                    int l = direcoes[k][0];
+                    int c = direcoes[k][1];
                     //se na posição do zero for possível executar o movimento, ou seja, o cálculo de l e c estiverem dentro dos limites da matriz
                     if (l >= 0 && c >= 0 && l < estado.getN() && c < estado.getN()) {
                         int n = estado.getMatriz()[l][c];
@@ -341,10 +345,10 @@ public class Jogo2 extends Thread{
                         filho.getMatriz()[l][c] = 0; //troca o numero por zero
                         filho.getMatriz()[linha][coluna] = n;
                         filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
-                        filho.setMovimento(acao[k]);          
+                        filho.setMovimento(acao[k]);
                         filhos.add(filho);
                         if (this.insereOrdenado(filho)) {
-                            System.out.println("+ Nodo " + nodos_abertos.size()  + " (movimento a " + filho.getMovimento() + " )");
+                            System.out.println("+ Nodo " + nodos_abertos.size() + " (movimento a " + filho.getMovimento() + " )");
                             System.out.println(filho);
                             System.out.println("Heuristica " + filho.getHeuristica());
                         }

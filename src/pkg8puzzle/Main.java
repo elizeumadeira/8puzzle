@@ -43,10 +43,15 @@ public class Main {
 
         };*/
         int inicial[][] = {
-            {8, 5, 2},
-            {7, 6, 4},
-            {3, 1, 0}
+            {8, 6, 7},
+            {2, 5, 4},
+            {3, 0, 1}
         };
+//        int inicial[][] = {
+//            {8, 5, 2},
+//            {7, 6, 4},
+//            {3, 1, 0}
+//        };
         if (GFG.isSolvable(inicial)) {
             //cria a GUI para o tabuleiro
             Tabuleiro tabuleiro = new Tabuleiro(3, 550, 30);
