@@ -33,8 +33,25 @@ public class Tabuleiro extends JPanel {
     private boolean isFinal; // verdadeiro se a matriz é o objetivo, do contrário falso
     private int passos;
     // Qualquer mensagem  que se deseja imprimir na parte de baixo do tabuleiro
-    private String mensagem = "";
+//    private String mensagem = "";
 
+    public Tabuleiro() {
+        this.margem = 5;
+
+        matriz = new int[3][3];
+        int dimensao = 1800;
+        int tamanho = 30;
+        // calcula o tamanho do grid para calcular o tamanho das peças
+        int tamGrade = (dimensao - 2 * margem);
+        tamPeca = tamGrade / tamanho;
+
+        setPreferredSize(new Dimension(dimensao, dimensao + margem));
+        setBackground(Color.WHITE);
+        setForeground(FOREGROUND_COLOR);
+        setFont(new Font("SansSerif", Font.BOLD, 60));
+        isFinal = false;
+    }
+    
     public Tabuleiro(int tamanho, int dimensao, int margem) {
         this.margem = margem;
 
@@ -85,15 +102,15 @@ public class Tabuleiro extends JPanel {
      *  Do contrario desenha o string contido no atributo mensagem.
      * @param g objeto para redenrizar formas bidimensionais, texto e imagens.
      */
-    private void desenhaMensagem(Graphics2D g) {
-        if (isFinal) {
-            mensagem = "Sucesso! Resolvido em " + passos + " passos.";
-        }
-        g.setFont(getFont().deriveFont(Font.BOLD, 18));
-        g.setColor(FOREGROUND_COLOR);
-        g.drawString(mensagem, (getWidth() - g.getFontMetrics().stringWidth(mensagem)) / 2,
-                getHeight() - margem);
-    }
+//    private void desenhaMensagem(Graphics2D g) {
+//        if (isFinal) {
+//            mensagem = "Sucesso! Resolvido em " + passos + " passos.";
+//        }
+//        g.setFont(getFont().deriveFont(Font.BOLD, 18));
+//        g.setColor(FOREGROUND_COLOR);
+//        g.drawString(mensagem, (getWidth() - g.getFontMetrics().stringWidth(mensagem)) / 2,
+//                getHeight() - margem);
+//    }
     /** Desenha no JPanel o texto que representa um número da matriz .
      * 
      * @param g objeto para redenrizar formas bidimensionais, texto e imagens.
@@ -116,12 +133,13 @@ public class Tabuleiro extends JPanel {
         Graphics2D g2D = (Graphics2D) g;
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         desenhaGrade(g2D);
-        desenhaMensagem(g2D);
+//        desenhaMensagem(g2D);
     }
 
-    public void setEstado(int[][] matriz, String acao) {
+    public void setEstado(int[][] matriz) {
         this.matriz = matriz;
-        this.mensagem = acao;
+//        this.mensagem = acao;
+System.out.println("Repaint!!");
         repaint();
     }
 

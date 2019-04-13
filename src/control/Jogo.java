@@ -180,7 +180,7 @@ public class Jogo extends Thread {
 //            }           
                 expandeEstado();
                 nodos_fechados.add(this.estado);
-                tabuleiro.setEstado(this.estado.getMatriz(), this.estado.getMovimento().toString());
+                tabuleiro.setEstado(this.estado.getMatriz());
                 System.out.println("removeu: " + nodos_abertos.remove(this.estado));  //remove o estado filho com melhor heuristica da fronteira
                 //for (Nodo aberto: nodos_abertos){
                     

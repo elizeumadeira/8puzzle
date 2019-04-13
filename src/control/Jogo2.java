@@ -23,8 +23,9 @@ public class Jogo2 extends Thread {
     private Nodo estado;
     private Nodo objetivo;
     private Tabuleiro tabuleiro;
+    private javax.swing.JLabel mensagem;
 
-    public Jogo2(int[][] objetivo, int[][] estado, Tabuleiro tabuleiro) {
+    public Jogo2(int[][] objetivo, int[][] estado, Tabuleiro tabuleiro, javax.swing.JLabel mensagem) {
         this.estado = new Nodo(estado);
         this.objetivo = new Nodo(objetivo);
 //        System.out.println(this.estado.equals(this.objetivo));
@@ -32,6 +33,24 @@ public class Jogo2 extends Thread {
         nodos_fechados = new ArrayList<>();
         nodos_abertos.add(this.estado);
         this.tabuleiro = tabuleiro;
+        this.tabuleiro.setVisible(true);
+        this.mensagem = mensagem;
+    }
+
+    public void teste() {
+        boolean t = true;
+        try {
+            while (true) {
+                if (t) {
+                    this.tabuleiro.setEstado(this.estado.getMatriz());
+                } else {
+                    this.tabuleiro.setEstado(this.objetivo.getMatriz());
+                }
+                t = !t;
+                Thread.sleep(500);
+            }
+        } catch (Exception e) {
+        }
     }
 
     public Jogo2(Nodo objetivo, Nodo estado) {
@@ -141,8 +160,7 @@ public class Jogo2 extends Thread {
             //soma quantas linhas + quantas colunas o numero atual esta fora excetuando o zero
             // System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
             //  System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
-            {
-                if (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) == 1) {
+             if (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) == 1) {
                     //procura qual numero esta na posição de N
                     int p = m[linha_n][coluna_n];
                     he += this.movNAteP(m, n, p);
@@ -153,7 +171,6 @@ public class Jogo2 extends Thread {
                     int p = m[linha_n][coluna_n];
                     he += this.movNAteP(m, n, p); //agora sim calcula a quantidade de movimentos para move-lo parao lugar
                 }
-            }
 
         }
 
@@ -263,7 +280,9 @@ public class Jogo2 extends Thread {
 //            }
                 this.estado = estado_temp;
                 nodos_fechados.add(this.estado);
-                //  tabuleiro.setEstado(this.estado.getMatriz(),"");
+                tabuleiro.setEstado(this.estado.getMatriz());
+
+                this.mensagem.setText("");
                 expandeEstado();
                 System.out.println("Removeu estado: (nodos na fronteira: " + nodos_abertos.size() + ")");
                 System.out.println(this.estado);
@@ -272,6 +291,7 @@ public class Jogo2 extends Thread {
 
             }
             System.out.println(this.estado + " Fim de jogo! Resolvido em " + this.estado.getCusto() + " passos(s)");
+            this.mensagem.setText(" Fim de jogo! Resolvido em " + this.estado.getCusto() + " passos(s)");
             //estado.setHeuristica(this.somaHeuristica(this.estado.getMatriz()));
             //System.out.println(this.estado);
             //System.out.println("Heuristica " + estado.getHeuristica());
@@ -289,12 +309,14 @@ public class Jogo2 extends Thread {
 
             for (int i = arvoreSolucao.size() - 1; i >= 0; i--) {
                 solucao = arvoreSolucao.get(i);
-                tabuleiro.setEstado(solucao.getMatriz(), "Movimento " + solucao.getMovimento().toString());
+                tabuleiro.setEstado(solucao.getMatriz());
+                this.mensagem.setText("Movimento " + solucao.getMovimento().toString());
                 this.sleep(500);
 
             }
             tabuleiro.setFinal(this.estado.getCusto());
-            tabuleiro.setEstado(solucao.getMatriz(), "");
+            tabuleiro.setEstado(solucao.getMatriz());
+            this.mensagem.setText("");
 
         } catch (Exception ex) {
             ex.printStackTrace();
