@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,16 +12,19 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 /**
  *
  * @author daniel
  */
+public class Tabuleiro extends JPanel {
 
-public class Tabuleiro extends JPanel { 
-  
     // Cor das peças 
     private static final Color FOREGROUND_COLOR = new Color(60, 194, 187); // verde água
     // Matriz estado das peças em um array de duas dimensões
@@ -51,7 +54,7 @@ public class Tabuleiro extends JPanel {
         setFont(new Font("SansSerif", Font.BOLD, 60));
         isFinal = false;
     }
-    
+
     public Tabuleiro(int tamanho, int dimensao, int margem) {
         this.margem = margem;
 
@@ -68,8 +71,10 @@ public class Tabuleiro extends JPanel {
         isFinal = false;
 
     }
-    /** Desenha a representação do tabuleiro (matriz) nesse JPanel
-     * 
+
+    /**
+     * Desenha a representação do tabuleiro (matriz) nesse JPanel
+     *
      * @param g objeto para redenrizar formas bidimensionais, texto e imagens.
      */
     private void desenhaGrade(Graphics2D g) {
@@ -97,9 +102,12 @@ public class Tabuleiro extends JPanel {
 
         }
     }
-    /** Se o atributo isFinal for verdadeiro, desenha a mensagem 
-     *  de sucesso e o número de passos que levou para resolver.
-     *  Do contrario desenha o string contido no atributo mensagem.
+
+    /**
+     * Se o atributo isFinal for verdadeiro, desenha a mensagem de sucesso e o
+     * número de passos que levou para resolver. Do contrario desenha o string
+     * contido no atributo mensagem.
+     *
      * @param g objeto para redenrizar formas bidimensionais, texto e imagens.
      */
 //    private void desenhaMensagem(Graphics2D g) {
@@ -111,8 +119,9 @@ public class Tabuleiro extends JPanel {
 //        g.drawString(mensagem, (getWidth() - g.getFontMetrics().stringWidth(mensagem)) / 2,
 //                getHeight() - margem);
 //    }
-    /** Desenha no JPanel o texto que representa um número da matriz .
-     * 
+    /**
+     * Desenha no JPanel o texto que representa um número da matriz .
+     *
      * @param g objeto para redenrizar formas bidimensionais, texto e imagens.
      * @param numero texto representando o número na posição x , y
      * @param x posição horizontal x da peça
@@ -136,11 +145,51 @@ public class Tabuleiro extends JPanel {
 //        desenhaMensagem(g2D);
     }
 
-    public void setEstado(int[][] matriz) {
+    public class MyThread extends Thread {
+
+        public void run() {
+            synchronized (this) {
+                System.out.println("MyThread running");
+                repaint();
+                
+                notify();
+                
+                try {
+                    this.sleep(100);
+                } catch (Exception ex) {
+                }
+            }
+        }
+    }
+
+    public void setEstado(int[][] matriz) throws InterruptedException {
         this.matriz = matriz;
-//        this.mensagem = acao;
-System.out.println("Repaint!!");
-        repaint();
+//        System.out.println("Repaint!!");
+////        revalidate();
+
+        paintImmediately(1800, 30, 100, 100);
+
+//        MyThread myThread = new MyThread();
+//        myThread.start();
+//        
+//        synchronized (myThread) {
+//            myThread.wait();
+//        }
+
+//        Timer timer = new Timer(500, new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+////                System.out.println("Repaint!!");
+//                repaint();
+//            }
+//        });
+//        timer.start();
+//        revalidate();
+//        updateUI();
+//SwingUtilities.invokeLater(new Runnable() {
+//    public void run() {
+//        revalidate();
+//    }});
     }
 
     public void setFinal(int passos) {
@@ -148,5 +197,4 @@ System.out.println("Repaint!!");
         this.passos = passos;
     }
 
-  
 }

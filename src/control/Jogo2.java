@@ -7,6 +7,8 @@ package control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Acao;
 import model.Nodo;
 import view.Tabuleiro;
@@ -34,22 +36,52 @@ public class Jogo2 extends Thread {
         nodos_abertos.add(this.estado);
         this.tabuleiro = tabuleiro;
         this.tabuleiro.setVisible(true);
+//        this.tabuleiro.validate();
+
         this.mensagem = mensagem;
     }
 
+//    public class MyThread extends Thread {
+//
+//        private Nodo estado;
+//        Tabuleiro tabuleiro;
+//
+//        public MyThread(Tabuleiro tabuleiro, Nodo estado) {
+//            this.estado = estado;
+//            this.tabuleiro = tabuleiro;
+//        }
+//
+//        public void setEstado(Nodo estado) {
+//            this.estado = estado;
+//        }
+//
+//        public void run() {
+//            this.tabuleiro.setEstado(this.estado.getMatriz());
+//            
+//            System.out.println("MyThread running");
+//
+//        }
+//    }
     public void teste() {
+
         boolean t = true;
-        try {
-            while (true) {
+        for (int i = 0; i < 10; i++) {
+//            MyThread myThread = new MyThread(this.tabuleiro, this.getEstado());
+            try {
                 if (t) {
                     this.tabuleiro.setEstado(this.estado.getMatriz());
                 } else {
                     this.tabuleiro.setEstado(this.objetivo.getMatriz());
                 }
+//            myThread.setEstado(this.estado);
+//            myThread.start();
                 t = !t;
-                Thread.sleep(500);
+            } catch (Exception ex) {
             }
-        } catch (Exception e) {
+            try {
+                Thread.sleep(500);
+            } catch (Exception ex) {
+            }
         }
     }
 
@@ -160,7 +192,8 @@ public class Jogo2 extends Thread {
             //soma quantas linhas + quantas colunas o numero atual esta fora excetuando o zero
             // System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
             //  System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
-             if (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) == 1) {
+            {
+                if (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) == 1) {
                     //procura qual numero esta na posição de N
                     int p = m[linha_n][coluna_n];
                     he += this.movNAteP(m, n, p);
@@ -171,6 +204,7 @@ public class Jogo2 extends Thread {
                     int p = m[linha_n][coluna_n];
                     he += this.movNAteP(m, n, p); //agora sim calcula a quantidade de movimentos para move-lo parao lugar
                 }
+            }
 
         }
 
