@@ -26,6 +26,7 @@ public class Jogo2 extends Thread {
     private Nodo objetivo;
     private Tabuleiro tabuleiro;
     private javax.swing.JLabel mensagem;
+    private int algoritmo;
 
     public Jogo2(int[][] objetivo, int[][] estado, Tabuleiro tabuleiro, javax.swing.JLabel mensagem) {
         this.estado = new Nodo(estado);
@@ -39,6 +40,11 @@ public class Jogo2 extends Thread {
 //        this.tabuleiro.validate();
 
         this.mensagem = mensagem;
+        this.algoritmo = 1;
+    }
+
+    public void setAlgoritmo(int algoritmo) {
+        this.algoritmo = algoritmo;
     }
 
 //    public class MyThread extends Thread {
@@ -63,26 +69,26 @@ public class Jogo2 extends Thread {
 //        }
 //    }
     public void teste() {
-
-        boolean t = true;
-        for (int i = 0; i < 10; i++) {
-//            MyThread myThread = new MyThread(this.tabuleiro, this.getEstado());
-            try {
-                if (t) {
-                    this.tabuleiro.setEstado(this.estado.getMatriz());
-                } else {
-                    this.tabuleiro.setEstado(this.objetivo.getMatriz());
-                }
-//            myThread.setEstado(this.estado);
-//            myThread.start();
-                t = !t;
-            } catch (Exception ex) {
-            }
-            try {
-                Thread.sleep(500);
-            } catch (Exception ex) {
-            }
-        }
+        System.out.println(getCustoUniforme(this.estado.getMatriz()));
+//        boolean t = true;
+//        for (int i = 0; i < 10; i++) {
+////            MyThread myThread = new MyThread(this.tabuleiro, this.getEstado());
+//            try {
+//                if (t) {
+//                    this.tabuleiro.setEstado(this.estado.getMatriz());
+//                } else {
+//                    this.tabuleiro.setEstado(this.objetivo.getMatriz());
+//                }
+////            myThread.setEstado(this.estado);
+////            myThread.start();
+//                t = !t;
+//            } catch (Exception ex) {
+//            }
+//            try {
+//                Thread.sleep(500);
+//            } catch (Exception ex) {
+//            }
+//        }
     }
 
     public Jogo2(Nodo objetivo, Nodo estado) {
@@ -211,6 +217,30 @@ public class Jogo2 extends Thread {
         return he;
     }
 
+    public int getCustoUniforme(int[][] m){
+        int cu = 0;
+        for (int i = 0; i < 9; i++) {
+            int linha = i / 3;
+            int coluna = (int) i % 3;
+            
+            int n = m[linha][coluna];
+            
+            //n deveria estar na linha...
+            int [] posDestino = this.procuraPosicao(this.objetivo.getMatriz(), n);
+        
+            //n esta atualmente na posição...
+            int [] posAtual = this.procuraPosicao(m, n);
+            
+            cu += Math.abs(posDestino[0] - posAtual[0]) + 
+                    Math.abs(posDestino[1] - posAtual[1]);
+            
+            System.out.println(n + " ==> "+ (Math.abs(posDestino[0] - posAtual[0]) + 
+                    Math.abs(posDestino[1] - posAtual[1])));
+        }
+        
+        return cu;
+    }
+    
     public int[] procuraPosicao(int[][] m, int n) {
         int res[] = {0, 0};
         for (int i = 0; i < 9; i++) {
@@ -376,7 +406,6 @@ public class Jogo2 extends Thread {
      * atual e calcular a heurística de cada um.
      */
     private void expandeEstado() {
-
         System.out.println("Expandir o estado:");
         System.out.println(this.estado);
         System.out.println("Heuristica " + this.estado.getHeuristica());
@@ -400,7 +429,12 @@ public class Jogo2 extends Thread {
                         Nodo filho = estado.clone();
                         filho.getMatriz()[l][c] = 0; //troca o numero por zero
                         filho.getMatriz()[linha][coluna] = n;
-                        filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
+                        if(this.algoritmo == 1){
+                            filho.setHeuristica(this.somaHeuristica(filho.getMatriz()) + filho.getCusto());
+                        }else{
+                            filho.setHeuristica(this.getCustoUniforme(filho.getMatriz()) + filho.getCusto());
+                        }
+                        
                         filho.setMovimento(acao[k]);
                         filhos.add(filho);
                         if (this.insereOrdenado(filho)) {

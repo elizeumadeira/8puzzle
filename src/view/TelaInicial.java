@@ -62,8 +62,9 @@ public class TelaInicial extends javax.swing.JFrame {
         objetivo_33 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        tipo_algoritmo = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         tabuleiro1 = new view.Tabuleiro();
         mensagem = new javax.swing.JLabel();
@@ -388,7 +389,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(jButton2)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,11 +418,19 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        puzzle8algoritmo.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Heurística");
+        puzzle8algoritmo.add(tipo_algoritmo);
+        tipo_algoritmo.setSelected(true);
+        tipo_algoritmo.setText("Heurística");
+        tipo_algoritmo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipo_algoritmoActionPerformed(evt);
+            }
+        });
 
+        puzzle8algoritmo.add(jRadioButton2);
         jRadioButton2.setText("Custo Uniforme");
+
+        jLabel3.setText("Algoritmo");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -430,18 +439,20 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(jRadioButton2)
+                    .addComponent(jLabel3)
+                    .addComponent(tipo_algoritmo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jRadioButton1)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tipo_algoritmo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRadioButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jButton6.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
@@ -785,14 +796,20 @@ public class TelaInicial extends javax.swing.JFrame {
 //                Jogo j = new Jogo(objetivo, inicial, tabuleiro);
 //                j.run();
 //            } else {
+            int algoritmo = this.tipo_algoritmo.isSelected() ? 1 : 0;
             Jogo2 j = new Jogo2(objetivo, inicial, tabuleiro1, mensagem);
-            j.teste();
+            j.setAlgoritmo(algoritmo);
+            j.run();
 //            }
         } else {
             PopUps.showMessage("O estado inicial não é solucionável!");
         }
 
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void tipo_algoritmoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo_algoritmoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipo_algoritmoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -847,11 +864,11 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel mensagem;
@@ -866,5 +883,6 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JTextField objetivo_33;
     private javax.swing.ButtonGroup puzzle8algoritmo;
     private view.Tabuleiro tabuleiro1;
+    private javax.swing.JRadioButton tipo_algoritmo;
     // End of variables declaration//GEN-END:variables
 }
