@@ -6,6 +6,7 @@
 package view;
 
 import control.Jogo2;
+import control.QuatroEmLinha;
 import helpers.GFG;
 import javax.swing.SwingUtilities;
 
@@ -68,6 +69,8 @@ public class TelaInicial extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         tabuleiro1 = new view.Tabuleiro();
         mensagem = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -518,6 +521,33 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("8 Puzzle", jPanel1);
 
+        jButton7.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jButton7.setText("Jogar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(347, 347, 347)
+                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addGap(40, 40, 40))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(220, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("4 em linha", jPanel5);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -811,6 +841,13 @@ public class TelaInicial extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tipo_algoritmoActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        
+        QuatroEmLinha j2 = new QuatroEmLinha();
+        j2.verificaVencedor();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -862,6 +899,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -869,6 +907,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel mensagem;
