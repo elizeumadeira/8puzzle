@@ -66,13 +66,14 @@ public class TelaInicial extends javax.swing.JFrame {
         tipo_algoritmo = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        jBtnJogar8Puzzle = new javax.swing.JButton();
         tabuleiro1 = new view.Tabuleiro();
         mensagem = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("T1 - Métodos de Busca");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -86,7 +87,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Tabileiro Inicial");
+        jLabel1.setText("Tabuleiro Inicial");
 
         inicial_12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         inicial_12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -258,11 +259,6 @@ public class TelaInicial extends javax.swing.JFrame {
         objetivo_11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         objetivo_11.setText("1");
-        objetivo_11.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_11KeyReleased(evt);
-            }
-        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -271,88 +267,33 @@ public class TelaInicial extends javax.swing.JFrame {
         objetivo_12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         objetivo_12.setText("2");
-        objetivo_12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                objetivo_12ActionPerformed(evt);
-            }
-        });
-        objetivo_12.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_12KeyReleased(evt);
-            }
-        });
 
         objetivo_13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_13.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         objetivo_13.setText("3");
-        objetivo_13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                objetivo_13ActionPerformed(evt);
-            }
-        });
-        objetivo_13.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_13KeyReleased(evt);
-            }
-        });
 
         objetivo_23.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_23.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         objetivo_23.setText("6");
-        objetivo_23.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_23KeyReleased(evt);
-            }
-        });
 
         objetivo_22.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_22.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         objetivo_22.setText("5");
-        objetivo_22.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_22KeyReleased(evt);
-            }
-        });
 
         objetivo_21.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_21.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         objetivo_21.setText("4");
-        objetivo_21.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_21KeyReleased(evt);
-            }
-        });
 
         objetivo_31.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_31.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         objetivo_31.setText("7");
-        objetivo_31.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                objetivo_31ActionPerformed(evt);
-            }
-        });
-        objetivo_31.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_31KeyReleased(evt);
-            }
-        });
 
         objetivo_32.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_32.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         objetivo_32.setText("8");
-        objetivo_32.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_32KeyReleased(evt);
-            }
-        });
 
         objetivo_33.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         objetivo_33.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        objetivo_33.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                objetivo_33KeyReleased(evt);
-            }
-        });
 
         jButton2.setText("Setar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -458,11 +399,11 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jButton6.setText("Jogar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jBtnJogar8Puzzle.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jBtnJogar8Puzzle.setText("Jogar");
+        jBtnJogar8Puzzle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jBtnJogar8PuzzleActionPerformed(evt);
             }
         });
 
@@ -495,7 +436,7 @@ public class TelaInicial extends javax.swing.JFrame {
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(40, 40, 40)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                            .addComponent(jBtnJogar8Puzzle, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                             .addComponent(tabuleiro1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -511,9 +452,9 @@ public class TelaInicial extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtnJogar8Puzzle, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tabuleiro1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)))
+                        .addComponent(tabuleiro1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mensagem, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                 .addContainerGap())
@@ -535,7 +476,7 @@ public class TelaInicial extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(347, 347, 347)
-                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addGap(40, 40, 40))
         );
         jPanel5Layout.setVerticalGroup(
@@ -642,6 +583,15 @@ public class TelaInicial extends javax.swing.JFrame {
         return tf.getText().equals("") ? 0 : Integer.parseInt(tf.getText());
     }
 
+    public Tabuleiro getTabuleiro() {
+        return tabuleiro1;
+    }
+ 
+    public void fimDeJogo8Puzzle(){
+        jBtnJogar8Puzzle.setEnabled(true);   
+    }
+    
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
@@ -659,42 +609,6 @@ public class TelaInicial extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void objetivo_11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_11KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_11KeyReleased
-
-    private void objetivo_12KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_12KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_12KeyReleased
-
-    private void objetivo_13KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_13KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_13KeyReleased
-
-    private void objetivo_23KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_23KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_23KeyReleased
-
-    private void objetivo_22KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_22KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_22KeyReleased
-
-    private void objetivo_21KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_21KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_21KeyReleased
-
-    private void objetivo_31KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_31KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_31KeyReleased
-
-    private void objetivo_32KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_32KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_32KeyReleased
-
-    private void objetivo_33KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_objetivo_33KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_33KeyReleased
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int matriz[][] = {
@@ -710,18 +624,6 @@ public class TelaInicial extends javax.swing.JFrame {
             jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void objetivo_31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objetivo_31ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_31ActionPerformed
-
-    private void objetivo_12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objetivo_12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_12ActionPerformed
-
-    private void objetivo_13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objetivo_13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_objetivo_13ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -777,7 +679,7 @@ public class TelaInicial extends javax.swing.JFrame {
         inicial_33.setText("5");
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void jBtnJogar8PuzzleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnJogar8PuzzleActionPerformed
         // TODO add your handling code here:
 
         int inicial[][] = {
@@ -827,15 +729,16 @@ public class TelaInicial extends javax.swing.JFrame {
 //                j.run();
 //            } else {
             int algoritmo = this.tipo_algoritmo.isSelected() ? 1 : 0;
-            Jogo2 j = new Jogo2(objetivo, inicial, tabuleiro1, mensagem);
+            Jogo2 j = new Jogo2(objetivo, inicial, this, mensagem);
             j.setAlgoritmo(algoritmo);
-            j.run();
+            j.start();
+            jBtnJogar8Puzzle.setEnabled(false);
 //            }
         } else {
             PopUps.showMessage("O estado inicial não é solucionável!");
         }
 
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jBtnJogar8PuzzleActionPerformed
 
     private void tipo_algoritmoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo_algoritmoActionPerformed
         // TODO add your handling code here:
@@ -893,12 +796,12 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JTextField inicial_31;
     private javax.swing.JTextField inicial_32;
     private javax.swing.JTextField inicial_33;
+    private javax.swing.JButton jBtnJogar8Puzzle;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
