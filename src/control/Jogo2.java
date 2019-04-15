@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import model.Acao;
 import model.Nodo;
 import view.Tabuleiro;
+import view.TelaInicial;
 
 /**
  *
@@ -24,71 +25,24 @@ public class Jogo2 extends Thread {
     private List<Nodo> nodos_fechados;
     private Nodo estado;
     private Nodo objetivo;
-    private Tabuleiro tabuleiro;
     private javax.swing.JLabel mensagem;
     private int algoritmo;
+    private TelaInicial tela;
 
-    public Jogo2(int[][] objetivo, int[][] estado, Tabuleiro tabuleiro, javax.swing.JLabel mensagem) {
+    public Jogo2(int[][] objetivo, int[][] estado, TelaInicial tela, javax.swing.JLabel mensagem ) {
         this.estado = new Nodo(estado);
         this.objetivo = new Nodo(objetivo);
 //        System.out.println(this.estado.equals(this.objetivo));
         nodos_abertos = new ArrayList<>();
         nodos_fechados = new ArrayList<>();
-        nodos_abertos.add(this.estado);
-        this.tabuleiro = tabuleiro;
-        this.tabuleiro.setVisible(true);
-//        this.tabuleiro.validate();
-
+        nodos_abertos.add(this.estado);      
+        this.tela = tela;
         this.mensagem = mensagem;
         this.algoritmo = 1;
     }
 
     public void setAlgoritmo(int algoritmo) {
         this.algoritmo = algoritmo;
-    }
-
-//    public class MyThread extends Thread {
-//
-//        private Nodo estado;
-//        Tabuleiro tabuleiro;
-//
-//        public MyThread(Tabuleiro tabuleiro, Nodo estado) {
-//            this.estado = estado;
-//            this.tabuleiro = tabuleiro;
-//        }
-//
-//        public void setEstado(Nodo estado) {
-//            this.estado = estado;
-//        }
-//
-//        public void run() {
-//            this.tabuleiro.setEstado(this.estado.getMatriz());
-//            
-//            System.out.println("MyThread running");
-//
-//        }
-//    }
-    public void teste() {
-        System.out.println(getCustoUniforme(this.estado.getMatriz()));
-//        boolean t = true;
-//        for (int i = 0; i < 10; i++) {
-////            MyThread myThread = new MyThread(this.tabuleiro, this.getEstado());
-//            try {
-//                if (t) {
-//                    this.tabuleiro.setEstado(this.estado.getMatriz());
-//                } else {
-//                    this.tabuleiro.setEstado(this.objetivo.getMatriz());
-//                }
-////            myThread.setEstado(this.estado);
-////            myThread.start();
-//                t = !t;
-//            } catch (Exception ex) {
-//            }
-//            try {
-//                Thread.sleep(500);
-//            } catch (Exception ex) {
-//            }
-//        }
     }
 
     public Jogo2(Nodo objetivo, Nodo estado) {
@@ -323,6 +277,8 @@ public class Jogo2 extends Thread {
     @Override
     public void run() {
         try {
+            Tabuleiro tabuleiro = tela.getTabuleiro();
+            tabuleiro.setVisible(true);
             int ultCusto = 1;
             while (!isFinal()) {
                 if (!temNodoAberto()) {
@@ -375,12 +331,14 @@ public class Jogo2 extends Thread {
                 solucao = arvoreSolucao.get(i);
                 tabuleiro.setEstado(solucao.getMatriz());
                 this.mensagem.setText("Movimento " + solucao.getMovimento().toString());
+                tela.repaint();
                 this.sleep(500);
 
             }
             tabuleiro.setFinal(this.estado.getCusto());
             tabuleiro.setEstado(solucao.getMatriz());
             this.mensagem.setText("");
+            tela.fimDeJogo8Puzzle();
 
         } catch (Exception ex) {
             ex.printStackTrace();
