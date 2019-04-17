@@ -5,14 +5,6 @@
  */
 package pkg8puzzle;
 
-import control.Jogo;
-import control.Jogo2;
-import helpers.GFG;
-import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import model.Nodo;
-import view.Tabuleiro;
 import view.TelaInicial;
 
 /**

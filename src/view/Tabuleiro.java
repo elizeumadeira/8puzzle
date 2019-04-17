@@ -12,12 +12,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 /**
  *
@@ -33,26 +28,9 @@ public class Tabuleiro extends JPanel {
     private int tamPeca;
     // Margem reservada para o grid no JFrame
     private int margem;
-    private boolean isFinal; // verdadeiro se a matriz é o objetivo, do contrário falso
-    private int passos;
-    // Qualquer mensagem  que se deseja imprimir na parte de baixo do tabuleiro
-//    private String mensagem = "";
-
+    
     public Tabuleiro() {
-        this.margem = 5;
-
-        matriz = new int[3][3];
-        int dimensao = 1800;
-        int tamanho = 30;
-        // calcula o tamanho do grid para calcular o tamanho das peças
-        int tamGrade = (dimensao - 2 * margem);
-        tamPeca = tamGrade / tamanho;
-
-        setPreferredSize(new Dimension(dimensao, dimensao + margem));
-        setBackground(Color.WHITE);
-        setForeground(FOREGROUND_COLOR);
-        setFont(new Font("SansSerif", Font.BOLD, 60));
-        isFinal = false;
+        this(3, 1800, 5);
     }
 
     public Tabuleiro(int tamanho, int dimensao, int margem) {
@@ -62,13 +40,12 @@ public class Tabuleiro extends JPanel {
 
         // calcula o tamanho do grid para calcular o tamanho das peças
         int tamGrade = (dimensao - 2 * margem);
-        tamPeca = tamGrade / tamanho;
+        tamPeca = tamGrade / (tamanho*10);
 
         setPreferredSize(new Dimension(dimensao, dimensao + margem));
         setBackground(Color.WHITE);
         setForeground(FOREGROUND_COLOR);
         setFont(new Font("SansSerif", Font.BOLD, 60));
-        isFinal = false;
 
     }
 
@@ -109,16 +86,17 @@ public class Tabuleiro extends JPanel {
      * contido no atributo mensagem.
      *
      * @param g objeto para redenrizar formas bidimensionais, texto e imagens.
-     */
-//    private void desenhaMensagem(Graphics2D g) {
-//        if (isFinal) {
-//            mensagem = "Sucesso! Resolvido em " + passos + " passos.";
-//        }
-//        g.setFont(getFont().deriveFont(Font.BOLD, 18));
-//        g.setColor(FOREGROUND_COLOR);
-//        g.drawString(mensagem, (getWidth() - g.getFontMetrics().stringWidth(mensagem)) / 2,
-//                getHeight() - margem);
-//    }
+    
+    private void desenhaMensagem(Graphics2D g) {
+        if (isFinal) {
+            mensagem = "Sucesso! Resolvido em " + passos + " passos.";
+        }
+        g.setFont(getFont().deriveFont(Font.BOLD, 18));
+        g.setColor(FOREGROUND_COLOR);
+        g.drawString(mensagem, (getWidth() - g.getFontMetrics().stringWidth(mensagem)) / 2,
+                getHeight() - margem);
+    } 
+    */
     /**
      * Desenha no JPanel o texto que representa um número da matriz .
      *
@@ -142,59 +120,13 @@ public class Tabuleiro extends JPanel {
         Graphics2D g2D = (Graphics2D) g;
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         desenhaGrade(g2D);
-//        desenhaMensagem(g2D);
-    }
-
-    public class MyThread extends Thread {
-
-        public void run() {
-            synchronized (this) {
-                System.out.println("MyThread running");
-                repaint();
-                
-                notify();
-                
-                try {
-                    this.sleep(100);
-                } catch (Exception ex) {
-                }
-            }
-        }
     }
 
     public void setEstado(int[][] matriz) throws InterruptedException {
         this.matriz = matriz;
-//        System.out.println("Repaint!!");
-////        revalidate();
-
-        paintImmediately(1800, 30, 100, 100);
-
-//        MyThread myThread = new MyThread();
-//        myThread.start();
-//        
-//        synchronized (myThread) {
-//            myThread.wait();
-//        }
-
-//        Timer timer = new Timer(500, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-////                System.out.println("Repaint!!");
-//                repaint();
-//            }
-//        });
-//        timer.start();
-//        revalidate();
-//        updateUI();
-//SwingUtilities.invokeLater(new Runnable() {
-//    public void run() {
-//        revalidate();
-//    }});
+        repaint();  
     }
 
-    public void setFinal(int passos) {
-        this.isFinal = true;
-        this.passos = passos;
-    }
+    
 
 }
