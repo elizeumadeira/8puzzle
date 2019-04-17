@@ -5,10 +5,10 @@
  */
 package view;
 
-import control.Jogo2;
+import control.Jogo;
 import control.QuatroEmLinha;
 import helpers.GFG;
-import javax.swing.SwingUtilities;
+import model.Algoritmo;
 
 /**
  *
@@ -19,6 +19,7 @@ public class TelaInicial extends javax.swing.JFrame {
     /**
      * Creates new form TelaInicial
      */
+    
     public TelaInicial() {
         initComponents();
     }
@@ -63,9 +64,10 @@ public class TelaInicial extends javax.swing.JFrame {
         objetivo_33 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        tipo_algoritmo = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        JRdBtnCustoUniforme = new javax.swing.JRadioButton();
+        JRdBtnHeurPrecisa = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
+        JRdBtnHeurSimples = new javax.swing.JRadioButton();
         jBtnJogar8Puzzle = new javax.swing.JButton();
         tabuleiro1 = new view.Tabuleiro();
         mensagem = new javax.swing.JLabel();
@@ -333,7 +335,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(jButton2)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,19 +364,17 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        puzzle8algoritmo.add(tipo_algoritmo);
-        tipo_algoritmo.setSelected(true);
-        tipo_algoritmo.setText("Heurística");
-        tipo_algoritmo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipo_algoritmoActionPerformed(evt);
-            }
-        });
+        puzzle8algoritmo.add(JRdBtnCustoUniforme);
+        JRdBtnCustoUniforme.setSelected(true);
+        JRdBtnCustoUniforme.setText("Custo Uniforme");
 
-        puzzle8algoritmo.add(jRadioButton2);
-        jRadioButton2.setText("Custo Uniforme");
+        puzzle8algoritmo.add(JRdBtnHeurPrecisa);
+        JRdBtnHeurPrecisa.setText("A* Heurística Precisa");
 
         jLabel3.setText("Algoritmo");
+
+        puzzle8algoritmo.add(JRdBtnHeurSimples);
+        JRdBtnHeurSimples.setText("A* Heurística Simples");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -382,21 +382,23 @@ public class TelaInicial extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton2)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(JRdBtnHeurPrecisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3)
-                    .addComponent(tipo_algoritmo))
+                    .addComponent(JRdBtnHeurSimples, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(JRdBtnCustoUniforme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tipo_algoritmo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JRdBtnCustoUniforme)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JRdBtnHeurSimples)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JRdBtnHeurPrecisa))
         );
 
         jBtnJogar8Puzzle.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
@@ -450,7 +452,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jBtnJogar8Puzzle, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -476,7 +478,7 @@ public class TelaInicial extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(347, 347, 347)
-                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                 .addGap(40, 40, 40))
         );
         jPanel5Layout.setVerticalGroup(
@@ -589,6 +591,10 @@ public class TelaInicial extends javax.swing.JFrame {
  
     public void fimDeJogo8Puzzle(){
         jBtnJogar8Puzzle.setEnabled(true);   
+    }
+    
+    public void setMensagem(String msg) {
+        this.mensagem.setText(msg);
     }
     
     
@@ -709,7 +715,6 @@ public class TelaInicial extends javax.swing.JFrame {
         } else {
             jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         }
-
         if (GFG.isSolvable(inicial)) {
             //cria a GUI para o tabuleiro
 //            Tabuleiro tabuleiro = new Tabuleiro(3, 550, 30);
@@ -728,21 +733,21 @@ public class TelaInicial extends javax.swing.JFrame {
 //                Jogo j = new Jogo(objetivo, inicial, tabuleiro);
 //                j.run();
 //            } else {
-            int algoritmo = this.tipo_algoritmo.isSelected() ? 1 : 0;
-            Jogo2 j = new Jogo2(objetivo, inicial, this, mensagem);
+            
+            Algoritmo algoritmo = this.JRdBtnCustoUniforme.isSelected() ? Algoritmo.CUSTO_UNIFORME : (this.JRdBtnHeurSimples.isSelected() ? Algoritmo.A_ESTRELA_SIMPLES : Algoritmo.A_ESTRELA_PRECISA);
+            
+            Jogo j = new Jogo(objetivo, inicial, this);
+            
             j.setAlgoritmo(algoritmo);
             j.start();
             jBtnJogar8Puzzle.setEnabled(false);
+            
 //            }
         } else {
             PopUps.showMessage("O estado inicial não é solucionável!");
         }
 
     }//GEN-LAST:event_jBtnJogar8PuzzleActionPerformed
-
-    private void tipo_algoritmoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo_algoritmoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipo_algoritmoActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
@@ -787,6 +792,9 @@ public class TelaInicial extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton JRdBtnCustoUniforme;
+    private javax.swing.JRadioButton JRdBtnHeurPrecisa;
+    private javax.swing.JRadioButton JRdBtnHeurSimples;
     private javax.swing.JTextField inicial_11;
     private javax.swing.JTextField inicial_12;
     private javax.swing.JTextField inicial_13;
@@ -811,7 +819,6 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel mensagem;
     private javax.swing.JTextField objetivo_11;
@@ -825,6 +832,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JTextField objetivo_33;
     private javax.swing.ButtonGroup puzzle8algoritmo;
     private view.Tabuleiro tabuleiro1;
-    private javax.swing.JRadioButton tipo_algoritmo;
     // End of variables declaration//GEN-END:variables
+
+
 }
