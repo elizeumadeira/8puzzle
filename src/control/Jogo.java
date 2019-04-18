@@ -14,8 +14,12 @@ import view.Tabuleiro;
 import view.TelaInicial;
 
 /**
- *
- * @author Elizeu-pc
+ * Universidade Federal de Santa Catarina
+ * Curso de Bacharelado em Sistemas de Informacao
+ * INE5633-07238-Sistemas Inteligentes
+ * Daniel Antonio Tell - 18200625
+ * Elizeu Santos Madeira - 10101181
+ * Florianopolis, abril de 2019
  */
 public class Jogo extends Thread {
 
@@ -29,16 +33,18 @@ public class Jogo extends Thread {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
+    public boolean imprimeSaida = true;
 
-    public Jogo(int[][] objetivo, int[][] estado, TelaInicial tela) {
+    public Jogo(int[][] objetivo, int[][] estado, TelaInicial tela, boolean imprimeSaida) {
         this.estado = new Nodo(estado);
         this.objetivo = new Nodo(objetivo);
-//        System.out.println(this.estado.equals(this.objetivo));
+
         nodos_abertos = new ArrayList<>();
         nodos_fechados = new ArrayList<>();
         nodos_abertos.add(this.estado);      
         this.tela = tela;
         this.algoritmo = Algoritmo.CUSTO_UNIFORME;
+        this.imprimeSaida = imprimeSaida;
     }
 
     public void setAlgoritmo(Algoritmo algoritmo) {
@@ -59,7 +65,7 @@ public class Jogo extends Thread {
         for (int i = 0; i < a.length; i++) {
             r += a[i] + "|";
         }
-        System.out.println(r);
+        escreve(r);
     }
 
     /**
@@ -81,17 +87,46 @@ public class Jogo extends Thread {
     }
     
     /**
-     * Calcula a heuristic simples para o array estado do nodo atual. Percorre a matriz
+     * Calcula a heuristica simples para o array estado do nodo atual. Percorre a matriz
+     * "m" e para cada posicao da matriz, verifica se o mesmo número eh encontrado na 
+     * mesma posição da matriz do nodo objetivo. .
+     *
+     * @param filho eh um objeto da classe Nodo que representa o estado a verificar.
+     * @return valor da heurística calculada + valor do custo
+     */
+    public int somaHeuristicaSimples(Nodo filho) {
+        int he = 0;
+        int [][]m = filho.getMatriz();
+        int custo = filho.getCusto();
+        //começa a percorrer a matriz inserida
+        for (int i = 0; i < 9; i++) {
+            int linha = i / 3;
+            int coluna = (int) i % 3;
+            //para cada n fora do lugar somar 1 a heuristica (excetuando o zero)
+            if (m[linha][coluna] != 0){
+                if (m[linha][coluna] != this.objetivo.getMatriz()[linha][coluna]){     
+                    he++;
+                }
+            }
+            
+        }
+        //retorna a soma da heurística com o custo
+        return he + custo;
+    }
+    /**
+     * Calcula a heuristica mais precisa para o array estado do nodo atual. Percorre a matriz
      * "m" e para cada posicao do numero, verifica em qual posicao o mesmo
      * numero eh encontrado na matriz do nodo objetivo. Se for na mesma posicao
      * (linha x coluna) heuristica= 0, se nao, calcula a heuristica para o
      * numero, somando o numero de casas de distancia do objetivo o numero está.
      *
-     * @param m matriz estado nesse estado.
-     * @return
+     * @param filho eh um objeto da classe Nodo que representa o estado a verificar.
+     * @return valor da heurística calculada + valor do custo
      */
-    public int somaHeuristicaSimples(int[][] m) {
-        int he = 0;
+    public int somaHeuristicaPrecisa(Nodo filho) {
+        int he = 0; // valor de heurística
+        int [][]m = filho.getMatriz();
+        int custo = filho.getCusto();
         //começa a percorrer a matriz inserida
         for (int i = 0; i < 9; i++) {
             int linha = i / 3;
@@ -131,196 +166,10 @@ public class Jogo extends Thread {
             
         }
 
-        return he;
-    }
-    /**
-     * Calcula a heuristica mais precisa para o array estado do nodo atual. Percorre a matriz
-     * "m" e para cada posicao do numero, verifica em qual posicao o mesmo
-     * numero eh encontrado na matriz do nodo objetivo. Se for na mesma posicao
-     * (linha x coluna) heuristica= 0, se nao, calcula a heuristica para o
-     * numero, somando o numero de casas de distancia do objetivo o numero está.
-     *
-     * @param m matriz estado nesse estado.
-     * @return
-     */
-    public int somaHeuristicaPrecisa(int[][] m) {
-        int he = 0;
-        //começa a percorrer a matriz inserida
-        for (int i = 0; i < 9; i++) {
+        return he + custo;
 
-            int linha = i / 3;
-            int coluna = (int) i % 3;
-
-            int linha_n = 0;
-            int coluna_n = 0;
-            int n = m[linha][coluna];
-
-            //n devia estar na linha...
-            for (int j = 0; j < 3; j++) {
-//                this.escreveArray(this.objetivo.getMatriz()[j]);
-
-                if (this.inArray(this.objetivo.getMatriz()[j], n) == -1) {
-                    continue;
-                }
-
-                linha_n = j;
-            }
-            //n devia estar na coluna...
-            for (int j = 0; j < 3; j++) {
-                int[] col = {
-                    this.objetivo.getMatriz()[0][j],
-                    this.objetivo.getMatriz()[1][j],
-                    this.objetivo.getMatriz()[2][j]
-                };
-
-//                System.out.println(this.inArray(col, n) + " " + n);
-//                System.out.println("-----------");
-                if (this.inArray(col, n) == -1) {
-                    continue;
-                }
-
-                coluna_n = j;
-            }
-            //compara com a matriz objetivo
-            //soma quantas linhas + quantas colunas o numero atual esta fora
-//            for (int j = 0; j < 9; j++) {
-//                int linha_obj = j / 3;
-//                int coluna_obj = (int) j % 3;
-//                int n_obj = this.objetivo.getMatriz()[linha_obj][coluna_obj];
-//
-//                System.out.println(n +" - "+ n_obj +" = "+(n_obj != n ? he+1 : he));
-//                if (n_obj == n) {
-//                    break;
-//                } else {
-//                    he++;
-//                }
-//            }
-            //soma a distancia até a posição correta
-            //for (int j = 0; j < 9; j++) {
-            //}
-            //mesma linha e coluna, nada a fazer
-            if (linha == linha_n && coluna == coluna_n) {
-                he += 0;
-            } else //esta ao lado ou na diagonal
-            //soma quantas linhas + quantas colunas o numero atual esta fora excetuando o zero
-            // System.out.println("N:  " + n +  " he: " + (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n)) );
-            //  System.out.println("N: " + n + " linha: " + linha + " linha n " + linha_n + " coluna " + coluna + " coluna n " + coluna_n );
-            {
-                if (Math.abs(linha - linha_n) + Math.abs(coluna - coluna_n) == 1) {
-                    //procura qual numero esta na posição de N
-                    int p = m[linha_n][coluna_n];
-                    he += this.movNAteP(m, n, p);
-                } else {//move zero ao lado do numero depois soma com a quantidade 
-                    // de movimentos necessários para move-lo para o lugar correto
-                    he += this.movNAteP(m, 0, n) - 1; //só preciso mover até o lado, não trocar de movimento
-
-                    int p = m[linha_n][coluna_n];
-                    he += this.movNAteP(m, n, p); //agora sim calcula a quantidade de movimentos para move-lo parao lugar
-                }
-            }
-
-        }
-
-        return he;
     }
     
-    public int getCustoUniforme(int[][] m){
-        int cu = 0;
-        for (int i = 0; i < 9; i++) {
-            int linha = i / 3;
-            int coluna = (int) i % 3;
-            
-            int n = m[linha][coluna];
-            
-            //n deveria estar na linha...
-            int [] posDestino = this.procuraPosicao(this.objetivo.getMatriz(), n);
-        
-            //n esta atualmente na posição...
-            int [] posAtual = this.procuraPosicao(m, n);
-            
-            cu += Math.abs(posDestino[0] - posAtual[0]) + 
-                    Math.abs(posDestino[1] - posAtual[1]);
-            
-            System.out.println(n + " ==> "+ (Math.abs(posDestino[0] - posAtual[0]) + 
-                    Math.abs(posDestino[1] - posAtual[1])));
-        }
-        
-        return cu;
-    }
-    
-    public int[] procuraPosicao(int[][] m, int n) {
-        int res[] = {0, 0};
-        for (int i = 0; i < 9; i++) {
-            int linha = i / 3;
-            int coluna = (int) i % 3;
-
-            if (m[linha][coluna] == n) {
-                res[0] = linha;
-                res[1] = coluna;
-                break;
-            }
-        }
-
-        return res;
-    }
-
-    //calcula quantos movimentos necessarios para mover uma peça de uma posição até outra
-    public int movNAteP(int[][] m, int n, int p) {
-        int linhaN = 0;
-        int colunaN = 0;
-        int linhaP = 0;
-        int colunaP = 0;
-
-        //procura P
-        int[] posicaoP = this.procuraPosicao(m, 0);
-        linhaP = posicaoP[0];
-        colunaP = posicaoP[1];
-//        for (int i = 0; i < 9; i++) {
-//            int linha = i / 3;
-//            int coluna = (int) i % 3;
-//
-//            if (m[linha][coluna] == 0) {
-//                linhaP = linha;
-//                colunaP = coluna;
-//                break;
-//            }
-//        }
-
-        //procura n
-        int[] posicaoN = this.procuraPosicao(m, n);
-        linhaN = posicaoN[0];
-        colunaN = posicaoN[1];
-//        for (int i = 0; i < 9; i++) {
-//            int linha = i / 3;
-//            int coluna = (int) i % 3;
-//
-//            if (m[linha][coluna] == n) {
-//                linhaN = linha;
-//                colunaN = coluna;
-//                break;
-//            }
-//        }
-
-        //diferença entre a linha de n e a linha de 0
-        int linhaD = Math.abs(linhaN - linhaP);
-
-        //diferença entre a coluna de n e a coluna de 0
-        int colunaD = Math.abs(colunaN - colunaP);
-
-        //n ao lado de 0
-        if ((linhaD == 0 && colunaD == 1)
-                || (linhaD == 1 && colunaD == 0)
-                || (linhaD == 1 && colunaD == 1)) {
-            return 4;
-        } else if (linhaD == 2 && colunaD == 2) {//zero e N em extremos opostos
-            return 10;
-        } else if ((linhaD == 2 && colunaD == 1)//zero esta na linha ou coluna do lado + duas casas de distancia
-                || (linhaD == 1 && colunaD == 2)) {
-            return 9;
-        }
-
-        return 0;
-    }
 
     public boolean isFinal() {
         return estado.equals(objetivo);
@@ -344,16 +193,17 @@ public class Jogo extends Thread {
                 this.estado = nodos_abertos.remove(0);              
                 nodos_fechados.add(this.estado); 
                 expandeEstado();
-                System.out.println(ANSI_RED + "- Estado removido: (nodos na fronteira: " + nodos_abertos.size() + ")" + ANSI_RESET);
-                System.out.println(this.estado);
-                System.out.println("Heuristica " + this.estado.getHeuristica());
+                escreve(ANSI_RED + "- Estado removido: (nodos na fronteira: " + nodos_abertos.size() + ")" + ANSI_RESET);
+                escreve(this.estado);
+                escreve("Heuristica " + this.estado.getHeuristica());
 
             }
-            System.out.println(this.estado + " Fim de jogo! Resolvido em " + this.estado.getCusto() + " passos(s)");
+            escreve(this.estado + " Fim de jogo! Resolvido em " + this.estado.getCusto() + " passos(s)");
             
             Nodo solucao = this.estado;
             ArrayList<Nodo> arvoreSolucao = new ArrayList<>();
-            arvoreSolucao.add(solucao);          
+            arvoreSolucao.add(solucao
+            );          
             while (solucao != null) {
                 solucao = solucao.getPai();
                 if (solucao != null) {
@@ -382,9 +232,9 @@ public class Jogo extends Thread {
     public void escreveNodosFechados() {
         int i = 0;
         for (Nodo caminho : nodos_fechados) {
-            System.out.println("Nodo nº" + (i + 1));
-            System.out.println(caminho);
-            System.out.println("============");
+            escreve("Nodo nº" + (i + 1));
+            escreve(caminho);
+            escreve("============");
             i++;
         }
     }
@@ -398,9 +248,9 @@ public class Jogo extends Thread {
      * atual e calcular a heurística de cada um.
      */
     private void expandeEstado() {
-        System.out.println("Estado expandido:");
-        System.out.println(this.estado);
-        System.out.println("Heuristica " + this.estado.getHeuristica());
+        escreve("Estado expandido:");
+        escreve(this.estado);
+        escreve("Heuristica " + this.estado.getHeuristica());
         //incrementa o custo
         this.estado.setCusto(estado.getCusto() + 1);
         int coluna = 0;
@@ -423,20 +273,20 @@ public class Jogo extends Thread {
                         filho.getMatriz()[linha][coluna] = n;
                         switch (this.algoritmo){
                             case CUSTO_UNIFORME:
-                                filho.setHeuristica(this.getCustoUniforme(filho.getMatriz()) + filho.getCusto());
+                                filho.setHeuristica(this.estado.getCusto());
                                 break;
                             case A_ESTRELA_SIMPLES:
-                                filho.setHeuristica(this.somaHeuristicaSimples(filho.getMatriz()) + filho.getCusto());
+                                filho.setHeuristica(this.somaHeuristicaSimples(filho)); 
                                 break;
                             case A_ESTRELA_PRECISA:
-                                filho.setHeuristica(this.somaHeuristicaPrecisa(filho.getMatriz()) + filho.getCusto());
+                                filho.setHeuristica(this.somaHeuristicaPrecisa(filho));
                         }
                         filho.setMovimento(acao[k]);
                         filhos.add(filho);
                         if (this.insereOrdenado(filho)) {
-                            System.out.println(ANSI_GREEN + "+ Nodo " + nodos_abertos.size() + " (movimento a " + filho.getMovimento() + " )" + ANSI_RESET);
-                            System.out.println(filho);
-                            System.out.println("Heuristica " + filho.getHeuristica());
+                            escreve(ANSI_GREEN + "+ Nodo " + nodos_abertos.size() + " (movimento a " + filho.getMovimento() + " )" + ANSI_RESET);
+                            escreve(filho);
+                            escreve("Heuristica " + filho.getHeuristica());
                         }
                     }
                 }
@@ -483,6 +333,12 @@ public class Jogo extends Thread {
         //se a heurística for a maior dos nodos, insere no final da lista
         nodos_abertos.add(estado);
         return true;
+    }
+
+    private void escreve(Object saida) {
+        
+        if (imprimeSaida)
+            System.out.println(saida);
     }
 
 }

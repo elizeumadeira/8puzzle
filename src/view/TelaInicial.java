@@ -6,13 +6,15 @@
 package view;
 
 import control.Jogo;
-import control.QuatroEmLinha;
-import helpers.GFG;
 import model.Algoritmo;
 
 /**
- *
- * @author Elizeu
+ * Universidade Federal de Santa Catarina
+ * Curso de Bacharelado em Sistemas de Informacao
+ * INE5633-07238-Sistemas Inteligentes
+ * Daniel Antonio Tell - 18200625
+ * Elizeu Santos Madeira - 10101181
+ * Florianopolis, abril de 2019
  */
 public class TelaInicial extends javax.swing.JFrame {
 
@@ -71,8 +73,7 @@ public class TelaInicial extends javax.swing.JFrame {
         jBtnJogar8Puzzle = new javax.swing.JButton();
         tabuleiro1 = new view.Tabuleiro();
         mensagem = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jButton7 = new javax.swing.JButton();
+        jChkImprime = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("T1 - Métodos de Busca");
@@ -215,15 +216,18 @@ public class TelaInicial extends javax.swing.JFrame {
                         .addGap(38, 38, 38)
                         .addComponent(jButton1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)))
+                        .addGap(27, 27, 27)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,6 +426,9 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jChkImprime.setSelected(true);
+        jChkImprime.setText("Imprimir no console");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -431,15 +438,18 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mensagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBtnJogar8Puzzle, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(tabuleiro1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jBtnJogar8Puzzle, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                                    .addComponent(tabuleiro1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)))
+                            .addComponent(jChkImprime))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -452,44 +462,18 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jBtnJogar8Puzzle, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tabuleiro1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)))
+                        .addComponent(tabuleiro1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jChkImprime)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mensagem, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(mensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("8 Puzzle", jPanel1);
-
-        jButton7.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jButton7.setText("Jogar");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(347, 347, 347)
-                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                .addGap(40, 40, 40))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(220, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("4 em linha", jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -511,26 +495,148 @@ public class TelaInicial extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public String max1numro(String numero) {
-        char[] n = numero.toCharArray();
-        String retorno = n[n.length - 1] + "";
-        return retorno;
-    }
-
-    private void inicial_11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_11KeyReleased
+    private void jBtnJogar8PuzzleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnJogar8PuzzleActionPerformed
         // TODO add your handling code here:
-        inicial_11.setText(this.max1numro(inicial_11.getText()));
-    }//GEN-LAST:event_inicial_11KeyReleased
 
-    private void inicial_12KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_12KeyReleased
-        // TODO add your handling code here:
-        inicial_12.setText(this.max1numro(inicial_12.getText()));
-    }//GEN-LAST:event_inicial_12KeyReleased
+        int inicial[][] = {
+            {nOrZero(inicial_11), nOrZero(inicial_12), nOrZero(inicial_13)},
+            {nOrZero(inicial_21), nOrZero(inicial_22), nOrZero(inicial_23)},
+            {nOrZero(inicial_31), nOrZero(inicial_32), nOrZero(inicial_33)}
+        };
 
-    private void inicial_13KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_13KeyReleased
+        int objetivo[][] = {
+            {nOrZero(objetivo_11), nOrZero(objetivo_12), nOrZero(objetivo_13)},
+            {nOrZero(objetivo_21), nOrZero(objetivo_22), nOrZero(objetivo_23)},
+            {nOrZero(objetivo_31), nOrZero(objetivo_32), nOrZero(objetivo_33)}
+        };
+
+        if (!this.validaMatriz(inicial)) {
+            PopUps.showMessage("Tabuleiro Inicial incorreto");
+            jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+            return;
+        } else {
+            jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        }
+
+        if (!this.validaMatriz(objetivo)) {
+            PopUps.showMessage("Tabuleiro Objetivo incorreto");
+            jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+            return;
+        } else {
+            jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        }
+            Algoritmo algoritmo = this.JRdBtnCustoUniforme.isSelected() ? Algoritmo.CUSTO_UNIFORME : (this.JRdBtnHeurSimples.isSelected() ? Algoritmo.A_ESTRELA_SIMPLES : Algoritmo.A_ESTRELA_PRECISA);
+            boolean imprimeSaida = jChkImprime.isSelected();
+            Jogo j = new Jogo(objetivo, inicial, this, imprimeSaida);
+
+            j.setAlgoritmo(algoritmo);
+            j.start();
+            jBtnJogar8Puzzle.setEnabled(false);
+
+       
+    }//GEN-LAST:event_jBtnJogar8PuzzleActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        inicial_13.setText(this.max1numro(inicial_13.getText()));
-    }//GEN-LAST:event_inicial_13KeyReleased
+        int matriz[][] = {
+            {nOrZero(objetivo_11), nOrZero(objetivo_12), nOrZero(objetivo_13)},
+            {nOrZero(objetivo_21), nOrZero(objetivo_22), nOrZero(objetivo_23)},
+            {nOrZero(objetivo_31), nOrZero(objetivo_32), nOrZero(objetivo_33)}
+        };
+
+        if (!this.validaMatriz(matriz)) {
+            PopUps.showMessage("Tabuleiro incorreto");
+            jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        } else {
+            jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        //            {8, 1, 2},
+        //            {0, 4, 3},
+        //            {7, 6, 5}
+        inicial_11.setText("8");
+        inicial_12.setText("1");
+        inicial_13.setText("2");
+
+        inicial_21.setText("");
+        inicial_22.setText("4");
+        inicial_23.setText("3");
+
+        inicial_31.setText("7");
+        inicial_32.setText("6");
+        inicial_33.setText("5");
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        //            {8, 5, 2},
+        //            {7, 6, 4},
+        //            {3, 1, 0}
+        inicial_11.setText("8");
+        inicial_12.setText("5");
+        inicial_13.setText("2");
+
+        inicial_21.setText("7");
+        inicial_22.setText("6");
+        inicial_23.setText("4");
+
+        inicial_31.setText("3");
+        inicial_32.setText("1");
+        inicial_33.setText("");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        //        {8, 6, 7},
+        //        {2, 5, 4},
+        //        {3, 0, 1}
+        inicial_11.setText("1");
+        inicial_12.setText("5");
+        inicial_13.setText("2");
+
+        inicial_21.setText("4");
+        inicial_22.setText("");
+        inicial_23.setText("3");
+
+        inicial_31.setText("7");
+        inicial_32.setText("8");
+        inicial_33.setText("6");
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+        int matriz[][] = {
+            {nOrZero(inicial_11), nOrZero(inicial_12), nOrZero(inicial_13)},
+            {nOrZero(inicial_21), nOrZero(inicial_22), nOrZero(inicial_23)},
+            {nOrZero(inicial_31), nOrZero(inicial_32), nOrZero(inicial_33)}
+        };
+
+        if (!this.validaMatriz(matriz)) {
+            PopUps.showMessage("Tabuleiro incorreto");
+            jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        } else {
+            jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void inicial_33KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_33KeyReleased
+        // TODO add your handling code here:
+        inicial_33.setText(this.max1numro(inicial_33.getText()));
+    }//GEN-LAST:event_inicial_33KeyReleased
+
+    private void inicial_32KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_32KeyReleased
+        // TODO add your handling code here:
+        inicial_32.setText(this.max1numro(inicial_32.getText()));
+    }//GEN-LAST:event_inicial_32KeyReleased
+
+    private void inicial_31KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_31KeyReleased
+        // TODO add your handling code here:
+        inicial_31.setText(this.max1numro(inicial_31.getText()));
+    }//GEN-LAST:event_inicial_31KeyReleased
 
     private void inicial_21KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_21KeyReleased
         // TODO add your handling code here:
@@ -547,20 +653,26 @@ public class TelaInicial extends javax.swing.JFrame {
         inicial_23.setText(this.max1numro(inicial_23.getText()));
     }//GEN-LAST:event_inicial_23KeyReleased
 
-    private void inicial_31KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_31KeyReleased
+    private void inicial_13KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_13KeyReleased
         // TODO add your handling code here:
-        inicial_31.setText(this.max1numro(inicial_31.getText()));
-    }//GEN-LAST:event_inicial_31KeyReleased
+        inicial_13.setText(this.max1numro(inicial_13.getText()));
+    }//GEN-LAST:event_inicial_13KeyReleased
 
-    private void inicial_32KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_32KeyReleased
+    private void inicial_12KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_12KeyReleased
         // TODO add your handling code here:
-        inicial_32.setText(this.max1numro(inicial_32.getText()));
-    }//GEN-LAST:event_inicial_32KeyReleased
+        inicial_12.setText(this.max1numro(inicial_12.getText()));
+    }//GEN-LAST:event_inicial_12KeyReleased
 
-    private void inicial_33KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_33KeyReleased
+    private void inicial_11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inicial_11KeyReleased
         // TODO add your handling code here:
-        inicial_33.setText(this.max1numro(inicial_33.getText()));
-    }//GEN-LAST:event_inicial_33KeyReleased
+        inicial_11.setText(this.max1numro(inicial_11.getText()));
+    }//GEN-LAST:event_inicial_11KeyReleased
+
+    public String max1numro(String numero) {
+        char[] n = numero.toCharArray();
+        String retorno = n[n.length - 1] + "";
+        return retorno;
+    }
 
     private boolean validaMatriz(int[][] matriz) {
         boolean[] validacao = new boolean[9];
@@ -598,164 +710,6 @@ public class TelaInicial extends javax.swing.JFrame {
     }
     
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-
-        int matriz[][] = {
-            {nOrZero(inicial_11), nOrZero(inicial_12), nOrZero(inicial_13)},
-            {nOrZero(inicial_21), nOrZero(inicial_22), nOrZero(inicial_23)},
-            {nOrZero(inicial_31), nOrZero(inicial_32), nOrZero(inicial_33)}
-        };
-
-        if (!this.validaMatriz(matriz)) {
-            PopUps.showMessage("Tabuleiro incorreto");
-            jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-        } else {
-            jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        int matriz[][] = {
-            {nOrZero(objetivo_11), nOrZero(objetivo_12), nOrZero(objetivo_13)},
-            {nOrZero(objetivo_21), nOrZero(objetivo_22), nOrZero(objetivo_23)},
-            {nOrZero(objetivo_31), nOrZero(objetivo_32), nOrZero(objetivo_33)}
-        };
-
-        if (!this.validaMatriz(matriz)) {
-            PopUps.showMessage("Tabuleiro incorreto");
-            jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-        } else {
-            jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-//        {8, 6, 7},
-//        {2, 5, 4},
-//        {3, 0, 1}
-        inicial_11.setText("8");
-        inicial_12.setText("6");
-        inicial_13.setText("7");
-
-        inicial_21.setText("2");
-        inicial_22.setText("5");
-        inicial_23.setText("4");
-
-        inicial_31.setText("3");
-        inicial_32.setText("");
-        inicial_33.setText("1");
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-//            {8, 5, 2},
-//            {7, 6, 4},
-//            {3, 1, 0}
-        inicial_11.setText("8");
-        inicial_12.setText("5");
-        inicial_13.setText("2");
-
-        inicial_21.setText("7");
-        inicial_22.setText("6");
-        inicial_23.setText("4");
-
-        inicial_31.setText("3");
-        inicial_32.setText("1");
-        inicial_33.setText("");
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-//            {8, 1, 2},
-//            {0, 4, 3},
-//            {7, 6, 5}
-        inicial_11.setText("8");
-        inicial_12.setText("1");
-        inicial_13.setText("2");
-
-        inicial_21.setText("");
-        inicial_22.setText("4");
-        inicial_23.setText("3");
-
-        inicial_31.setText("7");
-        inicial_32.setText("6");
-        inicial_33.setText("5");
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jBtnJogar8PuzzleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnJogar8PuzzleActionPerformed
-        // TODO add your handling code here:
-
-        int inicial[][] = {
-            {nOrZero(inicial_11), nOrZero(inicial_12), nOrZero(inicial_13)},
-            {nOrZero(inicial_21), nOrZero(inicial_22), nOrZero(inicial_23)},
-            {nOrZero(inicial_31), nOrZero(inicial_32), nOrZero(inicial_33)}
-        };
-
-        int objetivo[][] = {
-            {nOrZero(objetivo_11), nOrZero(objetivo_12), nOrZero(objetivo_13)},
-            {nOrZero(objetivo_21), nOrZero(objetivo_22), nOrZero(objetivo_23)},
-            {nOrZero(objetivo_31), nOrZero(objetivo_32), nOrZero(objetivo_33)}
-        };
-
-        if (!this.validaMatriz(inicial)) {
-            PopUps.showMessage("Tabuleiro Inicial incorreto");
-            jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-            return;
-        } else {
-            jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        }
-
-        if (!this.validaMatriz(objetivo)) {
-            PopUps.showMessage("Tabuleiro Objetivo incorreto");
-            jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-            return;
-        } else {
-            jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        }
-        if (GFG.isSolvable(inicial)) {
-            //cria a GUI para o tabuleiro
-//            Tabuleiro tabuleiro = new Tabuleiro(3, 550, 30);
-//            SwingUtilities.invokeLater(() -> {
-//                javax.swing.JFrame frame = new javax.swing.JFrame();
-//                frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-//                frame.setTitle("Jogo 8-puzzle");
-//                frame.setResizable(false);
-//                frame.add(tabuleiro, java.awt.BorderLayout.CENTER);
-//                frame.pack();
-//                // centralizar a tela
-//                frame.setLocationRelativeTo(null);
-//                frame.setVisible(true);
-//            });
-//            if (1 == 2) {
-//                Jogo j = new Jogo(objetivo, inicial, tabuleiro);
-//                j.run();
-//            } else {
-            
-            Algoritmo algoritmo = this.JRdBtnCustoUniforme.isSelected() ? Algoritmo.CUSTO_UNIFORME : (this.JRdBtnHeurSimples.isSelected() ? Algoritmo.A_ESTRELA_SIMPLES : Algoritmo.A_ESTRELA_PRECISA);
-            
-            Jogo j = new Jogo(objetivo, inicial, this);
-            
-            j.setAlgoritmo(algoritmo);
-            j.start();
-            jBtnJogar8Puzzle.setEnabled(false);
-            
-//            }
-        } else {
-            PopUps.showMessage("O estado inicial não é solucionável!");
-        }
-
-    }//GEN-LAST:event_jBtnJogar8PuzzleActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        
-        QuatroEmLinha j2 = new QuatroEmLinha();
-        j2.verificaVencedor();
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -810,7 +764,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JCheckBox jChkImprime;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -818,7 +772,6 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel mensagem;
     private javax.swing.JTextField objetivo_11;

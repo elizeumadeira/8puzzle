@@ -8,8 +8,12 @@ package pkg8puzzle;
 import view.TelaInicial;
 
 /**
- *
- * @author Elizeu-pc
+ * Universidade Federal de Santa Catarina
+ * Curso de Bacharelado em Sistemas de Informacao
+ * INE5633-07238-Sistemas Inteligentes
+ * Daniel Antonio Tell - 18200625
+ * Elizeu Santos Madeira - 10101181
+ * Florianopolis, abril de 2019
  */
 public class Main {
 
